@@ -1,0 +1,13 @@
+<div class="card" style="width: 50%;">
+  <div class="card-body">
+    <h5 class="card-title">{{patient.lastNameP}} {{patient.lastNameM}}, {{patient.name | uppercase}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{patient.email}}</h6>
+		<p class="card-text">Fecha Nacimiento: {{patient.birthDate}}</p>
+		<p class="card-text">Seguro: {{patient.insurance}}</p>
+	</div>
+	<div class="card-body">
+		<label>Correo:
+			<input [(ngModel)]="patient.email" placeholder="Correo">
+		</label>
+	</div>
+</div>
