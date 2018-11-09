@@ -10,6 +10,6 @@ export class Patient {
 	lastNameM: string;
 	gender: number;
 	birthDate: Date;
-	insurance: boolean;
+	insurance: string;
 	email: string;
 }

@@ -7,16 +7,27 @@ import { Patient } from '../patient';
   styleUrls: ['./patients.component.css']
 })
 export class PatientsComponent implements OnInit {
-	patient: Patient = {
+	currentPatient: Patient = {
 		id: 1,
 		name: 'Carla',
 		lastNameP: 'Herrera',
 		lastNameM: 'Rendón',
 		gender: 1,
 		birthDate: new Date('07/12/1995'),
-		insurance: true,
+		insurance: 'GNP',
 		email: 'carla.herrera.rendon@gmail.com'
 	};
+	patients: Patient[] = [
+		{ id: 1, name: 'Carla', lastNameP: 'Herrera', lastNameM: 'Rendón', gender: 1, birthDate: new Date('07/12/1995'), insurance: 'GNP', email: 'carla.herrera.rendon@gmail.com'
+		},
+		{ id: 2, name: 'Daniel', lastNameP: 'Herrera', lastNameM: 'Rendón', gender: 0, birthDate: new Date('06/04/1990'), insurance: 'GNP', email: 'daniel.herrera.rendon@gmail.com'
+		}
+	];
+	showPatientDetails: boolean  = false;
+	onSelect(pat: Patient): void {
+		this.currentPatient = pat;
+		this.showPatientDetails = true;
+	}
 
   constructor() { }
 
