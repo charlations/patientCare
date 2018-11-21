@@ -1,0 +1,10 @@
+.pull-right {
+	float: right;
+}
+.pull-left {
+	float: left;
+}
+.btn-icon {
+	padding: 0.3 rem;
+	line-height: 1;
+}
