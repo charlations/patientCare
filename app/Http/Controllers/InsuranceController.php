@@ -36,10 +36,17 @@ class InsuranceController extends Controller
      */
     public function store(Request $request)
     {
+			//dd($request->all());
 			Insurance::create($request->validate([
 				'insuranceName' => ['required', 'min:2'],
 				'notes' => 'nullable'
 			]));
+			if( $request->filled('name') || $request->filled('lastNames') || $request->filled('birthdate') || $request->filled('gender') || $request->filled('email') ) {
+				//dd("HAS PATIENT PARAMETERS", $request->except(['_token', 'insuranceName', 'notes']));
+				return redirect()->route('patient.create')->withInput(
+					$request->except(['_token', 'insuranceName', 'notes'])
+				);
+			}
 			return redirect()->route('insurance.index');
     }
 

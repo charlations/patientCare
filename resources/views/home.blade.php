@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Welcome to MSPatientCare
                 </div>
             </div>
         </div>

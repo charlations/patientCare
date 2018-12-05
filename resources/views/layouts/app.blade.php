@@ -10,11 +10,9 @@
     <title>{{ config('app.name', 'MSPatientCare') }}</title>
 
     <!-- Scripts -->
-		<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 		<script src="{{ asset('js/fontawesome/all.js') }}"></script>
-		<script src="{{ asset('js/bootstrap/bootstrap.js') }}"></script>
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!--Sweet Alert -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
 
     <!-- Fonts -->
@@ -41,15 +39,27 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+												@auth
 												<li class="nav-item">
-														<a class="nav-link" href="#"> {{ __('patientcare.patients') }} </a>
+														<a class="nav-link" href="/patient"> {{ __('patientcare.patients') }} </a>
 												</li>
-												<li class="nav-item">
+												<li class="nav-item disabled">
 														<a class="nav-link" href="#"> {{ __('patientcare.appointments') }} </a>
 												</li>
 												<li class="nav-item">
 														<a class="nav-link" href="#"> {{ __('patientcare.calendar') }} </a>
 												</li>
+												@if (Auth::user()->hasPermission('user_index') || Auth::user()->hasPermission('user_create') || Auth::user()->hasPermission('user_show') || Auth::user()->hasPermission('user_delete'))
+												<li class="nav-item">
+														<a class="nav-link" href="/user"> {{ __('patientcare.users') }} </a>
+												</li>
+												@endif
+												@if (Auth::user()->hasPermission('insurance_index') || Auth::user()->hasPermission('insurance_create') || Auth::user()->hasPermission('insurance_show') || Auth::user()->hasPermission('insurance_delete'))
+												<li class="nav-item">
+														<a class="nav-link" href="/insurance"> {{ __('patientcare.insurances') }} </a>
+												</li>
+												@endif
+												@endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -66,21 +76,21 @@
                             </li>
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+															<a id="navbarDropdownButton" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																{{ Auth::user()->name }} <span class="caret"></span>
+															</a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+															<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownButton">
+																<a class="dropdown-item" href="{{ route('logout') }}"
+																	onclick="event.preventDefault();
+																	document.getElementById('logout-form').submit();">
+																	{{ __('Logout') }}
+																</a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+																<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+																	@csrf
+																</form>
+															</div>
                             </li>
                         @endguest
                     </ul>

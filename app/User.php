@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastNames', 'email', 'password',
+        'name', 'lastNames', 'email', 'password', 'active',
     ];
 
     /**
@@ -26,5 +28,22 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
-    ];
+		];
+
+    /**
+     * Returns if user has permission
+     * @param string $permission
+     * @return boolean
+     */
+    public function hasPermission($permission) {
+			$permissions = DB::table('permissions')
+				->join('permissionsRole', 'permissions.id', '=', 'permissionsRole.idPermission')
+				->join('usersRole', 'usersRole.idRole', '=', 'permissionsRole.idRole')
+				->select('permissions.description')
+				->where('usersRole.idUser', Auth::user()->id)
+				->get();
+			//dd($permissions, in_array( $permission, $permissions->pluck('description')->all() ));
+			//return false;
+			return in_array( $permission, $permissions->pluck('description')->all() );
+    }
 }

@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-									{{ __('myProfile') }}
+									{{ __('patientcare.myProfile') }}
 									<div class="pull-right">
 										<button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#insuranceModal">
 										<i class="fas fa-plus"></i>
@@ -18,13 +18,13 @@
                 <div class="card-body">
 								<div class="list-group">
 									<a href="#" class="list-group-item list-group-item-action">
-										<strong>{{ __('name') }}: </strong>{{ $user->name }} {{ $user->lastNames }}
+										<strong>{{ __('patientcare.name') }}: </strong>{{ $user->name }} {{ $user->lastNames }}
 									</a>
 									<a href="#" class="list-group-item list-group-item-action">
-										<strong>{{ __('emal') }}: </strong>{{ $user->email }}
+										<strong>{{ __('patientcare.email') }}: </strong>{{ $user->email }}
 									</a>
 									<a href="#" class="list-group-item list-group-item-action">
-										<strong>{{ __('futureAppointments') }}</strong><span class="badge badge-primary badge-pill pull-right">2</span>
+										<strong>{{ __('patientcare.futureAppointments') }}</strong><span class="badge badge-primary badge-pill pull-right">2</span>
 									</a>
 								</div>
                 </div>
@@ -37,7 +37,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">{{ __('Insurance') }}</h5>
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.insurance') }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -47,7 +47,7 @@
 					@csrf
 					<div id="formMethod"></div>
 					<div class="form-group row">
-						<label for="insuranceName" class="col-md-4 col-form-label text-md-right">{{ __('InsuranceName') }}</label>
+						<label for="insuranceName" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.insuranceName') }}</label>
 
 						<div class="col-md-6">
 							<input id="insuranceName" type="text" class="form-control{{ $errors->has('insuranceName') ? ' is-invalid' : '' }}" name="insuranceName" value="{{ old('insuranceName') }}" required autofocus>
@@ -61,7 +61,7 @@
 					</div>
 
 					<div class="form-group row">
-						<label for="notes" class="col-md-4 col-form-label text-md-right">{{ __('Notes') }}</label>
+						<label for="notes" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.notes') }}</label>
 
 						<div class="col-md-6">
 							<textarea id="notes" type="text" class="form-control{{ $errors->has('notes') ? ' is-invalid' : '' }}" name="notes" value="{{ old('notes') }}" autofocus></textarea>
@@ -75,8 +75,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('cancel') }}</button>
-					<button type="submit" class="btn btn-primary" id="submitButton">{{ __('create') }}</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
+					<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
 				</div>
 			</form>
     </div>
@@ -87,7 +87,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">{{ __('delete') }} {{ __('insurance') }}</h5>
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.delete') }} {{ __('patientcare.insurance') }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -96,12 +96,12 @@
 				@csrf
 				@method("DELETE")
 				<div class="modal-body">
-					<h3>{{ __('¿') }}{{ __('areYouSure') }}?</h3>
-					<h5>{{ __('¿') }}{{ __('delete') }} <span id="insuranceDeleteName"></span>?
+					<h3>{{ __('patientcare.¿') }}{{ __('patientcare.areYouSure') }}?</h3>
+					<h5>{{ __('patientcare.¿') }}{{ __('patientcare.delete') }} <span id="insuranceDeleteName"></span>?
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('cancel') }}</button>
-					<button type="submit" class="swal-button swal-button--confirm swal-button--danger" tabindex="0">{{ __('delete') }}</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
+					<button type="submit" class="swal-button swal-button--confirm swal-button--danger" tabindex="0">{{ __('patientcare.delete') }}</button>
 				</div>
 			</form>
     </div>

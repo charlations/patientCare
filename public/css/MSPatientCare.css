@@ -8,3 +8,14 @@
 	padding: 0.3 rem;
 	line-height: 1;
 }
+.navbar-light .navbar-nav .nav-link {
+	color: rgb(52, 143, 220);
+}
+.navbar-light .navbar-nav .nav-link:hover {
+	color: rgba(0,0,0,.5);
+	border-bottom: solid rgb(52, 143, 220) 2px;
+}
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
+	color: rgba(52, 143, 220, 0.6);
+	border-bottom: solid rgb(52, 143, 220) 2px;
+}

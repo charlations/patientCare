@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
+
+		/**
+		 * Check permissions via middleware for all necesary functions
+		 */
+		public function __construct()
+		{
+			$this->middleware('permission:patient_delete')->only('destroy');
+		}
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +77,8 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        //
+				$insurances = DB::table('insurances')->get();
+        return view('patient.edit', compact('patient'), ['insurances' => $insurances]);
     }
 
     /**
@@ -81,7 +90,15 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
-        //
+				$patient->update($request->validate([
+					'name' => ['required', 'min:2'],
+					'lastNames' => 'nullable',
+					'birthdate' => ['required', 'date'],
+					'gender' => ['required', 'regex:/^(Hombre|Mujer|Otro)$/'],
+					'email' => ['nullable', 'email'],
+					'idInsurance' => ['nullable', 'exists:mysql.insurances,id']
+				]));
+				return redirect()->route('patient.index');
     }
 
     /**
