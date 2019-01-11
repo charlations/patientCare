@@ -36,3 +36,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/insurance', 'InsuranceController');
 Route::resource('/user', 'UserController');
 Route::resource('/patient', 'PatientController');
+
+// Google Login Controller
+Route::get('/redirect', 'SocialAuthGoogleController@redirect');
+Route::get('/callback', 'SocialAuthGoogleController@callback');
