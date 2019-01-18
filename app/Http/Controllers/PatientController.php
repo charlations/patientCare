@@ -51,7 +51,7 @@ class PatientController extends Controller
 				'name' => ['required', 'min:2'],
 				'lastNames' => 'nullable',
 				'birthdate' => ['required', 'date'],
-				'gender' => ['required', 'regex:/^(Hombre|Mujer|Otro)$/'],
+				'gender' => ['required', 'regex:/^(genderH|genderM|genderO)$/'],
 				'email' => ['nullable', 'email'],
 				'idInsurance' => ['nullable', 'exists:mysql.insurances,id']
 			]));

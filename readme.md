@@ -7,6 +7,47 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## Using Laravel
+
+```
+sudo /etc/init.d/apache2 stop
+sudo /opt/lampp/manager-linux-x64.run
+```
+
+### Common commands
+
+#### Serving
+`php artisan serve`
+
+#### Migrations
+
+[Reference](https://laravel.com/docs/5.7/migrations#creating-columns)
+
+`php artisan migrate:refresh`
+
+`php artisan make:migration create_users_table --create=users`
+
+### Models and Controllers
+
+Default Routes:
+
+> GET 		/insurance 				(index)		Route::get()
+> GET			/insurance/i			(show) 		Route::get()
+> POST 		/insurance 				(store) 	Route::post()
+> GET			/insurance/1/edit (edit) 		Route::get()
+> PATCH 	/insurance/1 			(update) 	Route::patch()
+> DELETE 	/insurance/1 			(destroy) Route::delete()
+> ---------------------------------------------------
+> ALL 																Route::resource()
+
+Create the controller with boilerplate functions
+
+`php artisan make:controller InsuranceController -r`
+
+Create the controller with boilerplate functions, including and referencing the Model
+
+`php artisan make:controller InsuranceController -r -m Insurance`
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:

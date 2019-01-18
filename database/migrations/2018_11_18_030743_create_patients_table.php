@@ -16,11 +16,11 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
 						$table->increments('id');
 						$table->string('name');
-						$table->string('lastNames');
-						$table->enum('gender', ['Hombre', 'Mujer', 'Otro']);
+						$table->string('lastNames')->nullable()->default(null);
+						$table->enum('gender', ['genderM', 'genderF', 'genderO']);
 						$table->date('birthdate');
-						$table->integer('idInsurance')->unsigned();
-            $table->string('email')->unique();
+						$table->integer('idInsurance')->unsigned()->nullable();
+            $table->string('email')->unique()->nullable();
 						$table->timestamps();
 						$table->foreign('idInsurance')->references('id')->on('insurances')->onDelete('cascade');
         });

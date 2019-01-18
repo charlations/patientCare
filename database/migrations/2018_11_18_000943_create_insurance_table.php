@@ -16,7 +16,7 @@ class CreateInsuranceTable extends Migration
         Schema::create('insurances', function (Blueprint $table) {
             $table->increments('id');
 						$table->string('insuranceName');
-						$table->text('notes');
+						$table->text('notes')->nullable();
 				});
 				
 				// Agregar la foreign key a los pacientes
