@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAntecedentesTable extends Migration
+class CreateMedHistListTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreateAntecedentesTable extends Migration
      */
     public function up()
     {
-        Schema::create('antecedentes', function (Blueprint $table) {
-						$table->increments('id');
+        Schema::create('medHistList', function (Blueprint $table) {
+            $table->increments('id');
 						$table->string('abbreviation', 5);
 						$table->string('name', 20);
         });
-				
-				// Agregar la foreign key a los pacientes
-				Schema::table('medHistory', function(Blueprint $table) {
-						$table->foreign('idAntecedente')->references('id')->on('antecedentes')->onDelete('cascade');
-				});
     }
 
     /**
@@ -32,6 +27,6 @@ class CreateAntecedentesTable extends Migration
      */
     public function down()
     {
-				Schema::dropIfExists('antecedentes');
+        Schema::dropIfExists('medHistList');
     }
 }

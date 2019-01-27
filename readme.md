@@ -40,6 +40,10 @@ Default Routes:
 > ---------------------------------------------------
 > ALL 																Route::resource()
 
+List all the current routes
+
+`php artisan route:list`
+
 Create the controller with boilerplate functions
 
 `php artisan make:controller InsuranceController -r`

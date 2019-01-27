@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMedicalhistTable extends Migration
+class CreateMedHistTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,18 @@ class CreateMedicalhistTable extends Migration
     public function up()
     {
         Schema::create('medHistory', function (Blueprint $table) {
-						$table->increments('id');
-						$table->integer('idPatient')->unsigned()->index();
-						$table->integer('idAntecedente')->unsigned()->index();
+            $table->integer('idPatient')->unsigned();
+						$table->integer('idMedHistList')->unsigned();
 						$table->text('histRecord')->nullable()->default(null);
-            $table->timestamps();
+						$table->timestamps();
 						$table->foreign('idPatient')
 							->references('id')->on('patients')
 							->onDelete('cascade');
-				});
+						$table->foreign('idMedHistList')
+								->references('id')->on('medHistList')
+								->onDelete('cascade');
+						$table->primary(['idPatient', 'idMedHistList']);
+        });
     }
 
     /**
@@ -35,8 +38,3 @@ class CreateMedicalhistTable extends Migration
         Schema::dropIfExists('medHistory');
     }
 }
-
-
-/*
-
-*/
