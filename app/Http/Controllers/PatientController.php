@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
+use App\MedHistory;
 use App\Insurance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +67,23 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        //
+        //dd($patient, $patient->id);
+				$medHist = DB::table('medHistList')
+					->leftJoin('medHistory', function($join) use(&$patient) {
+						$join->on('medHistList.id', '=', 'medHistory.idMedHistList')
+									->where('medHistory.idPatient', '=', $patient->id);
+					})->get();
+				/* $medHist = DB::table('medHistory')
+					->where('idPatient', $patient->id)
+					->join('medHistList', function ($join) {
+						$join->on('medHistory.idMedHistList', '=', 'medHistList.id');
+					})
+					->get(); */
+				$age = Patient::getAge($patient->birthdate);
+				//dd(compact('medHist', 'patient', 'age'), $age);
+				return view('medHist.index', ['medHist' => $medHist])
+					->with(compact('patient'))
+					->with('patientAge', $age);
     }
 
     /**

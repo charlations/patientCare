@@ -18,11 +18,23 @@ class MedHistoryController extends Controller
     public function index(Patient $patient)
     {
 				//dd($patient, $patient->id);
-				$patientId = $patient->id;
-				$medHist = DB::table('medHistory')->where('idPatient', $patient->id)->get();
-				dd($medHist);
-				return view('patient.index', ['medHist' => $medHist,], compact('patient'));
-    }
+				$medHist = DB::table('medHistList')
+					->leftJoin('medHistory', function($join) use(&$patient) {
+						$join->on('medHistList.id', '=', 'medHistory.idMedHistList')
+									->where('medHistory.idPatient', '=', $patient->id);
+					})->get();
+				/* $medHist = DB::table('medHistory')
+					->where('idPatient', $patient->id)
+					->join('medHistList', function ($join) {
+						$join->on('medHistory.idMedHistList', '=', 'medHistList.id');
+					})
+					->get(); */
+				$age = Patient::getAge($patient->birthdate);
+				//dd(compact('medHist', 'patient', 'age'), $age);
+				return view('medHist.index', ['medHist' => $medHist])
+					->with(compact('patient'))
+					->with('patientAge', $age);
+		}
 
     /**
      * Show the form for creating a new resource.

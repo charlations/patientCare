@@ -17,6 +17,7 @@ class CreateMedHistListTable extends Migration
             $table->increments('id');
 						$table->string('abbreviation', 5);
 						$table->string('name', 20);
+						$table->string('eng_name', 20)->nullable();
         });
     }
 

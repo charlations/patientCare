@@ -29,7 +29,7 @@
 										<tbody>
 										@foreach ($patients as $patient)
 											<tr> 
-												<td>{{ $patient->name }} {{ $patient->lastNames }}</td>
+												<td><a href="/patient/{{ $patient->id }}">{{ $patient->name }} {{ $patient->lastNames }}</a></td>
 												<td>{{ $patient->email}}</td>
 												<td> 
 													<div class="btn-group" role="group" aria-label="Basic example">
