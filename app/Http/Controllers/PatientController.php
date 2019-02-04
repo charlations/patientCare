@@ -13,11 +13,14 @@ class PatientController extends Controller
 
 		/**
 		 * Check permissions via middleware for all necesary functions
+		 * Require user be logged in
 		 */
 		public function __construct()
 		{
-			$this->middleware('permission:patient_delete')->only('destroy');
+				$this->middleware('auth');
+				$this->middleware('permission:patient_delete')->only('destroy');
 		}
+		
     /**
      * Display a listing of the resource.
      *
@@ -81,7 +84,7 @@ class PatientController extends Controller
 					->get(); */
 				$age = Patient::getAge($patient->birthdate);
 				//dd(compact('medHist', 'patient', 'age'), $age);
-				return view('medHist.index', ['medHist' => $medHist])
+				return view('patient.show', ['medHist' => $medHist])
 					->with(compact('patient'))
 					->with('patientAge', $age);
     }
@@ -95,7 +98,13 @@ class PatientController extends Controller
     public function edit(Patient $patient)
     {
 				$insurances = DB::table('insurances')->get();
-        return view('patient.edit', compact('patient'), ['insurances' => $insurances]);
+				$medHist = DB::table('medHistList')
+					->leftJoin('medHistory', function($join) use(&$patient) {
+						$join->on('medHistList.id', '=', 'medHistory.idMedHistList')
+									->where('medHistory.idPatient', '=', $patient->id);
+					})->get();
+				//dd(compact('patient'), compact('medHist'), compact('insurances'));
+        return view('patient.edit', compact('patient'), ['insurances' => $insurances, 'medHist' => $medHist]);
     }
 
     /**

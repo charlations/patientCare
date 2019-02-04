@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\DB;
 class InsuranceController extends Controller
 {
     /**
+		 * Require user be logged in
+		 */
+		public function __construct()
+		{
+				$this->middleware('auth');
+		}
+		
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

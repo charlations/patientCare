@@ -22,6 +22,7 @@ class CreatePatientsTable extends Migration
 						$table->integer('idInsurance')->unsigned()->nullable();
             $table->string('email')->unique()->nullable();
 						$table->timestamps();
+						$table->softDeletes();
 						$table->foreign('idInsurance')->references('id')->on('insurances')->onDelete('cascade');
         });
     }

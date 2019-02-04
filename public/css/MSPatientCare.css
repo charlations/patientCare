@@ -22,3 +22,21 @@
 .google-login-button {
 	
 }
+.card-header:first-child {
+	position: -webkit-sticky;
+	position: -moz-sticky;
+	position: -ms-sticky;
+	position: -o-sticky;
+	position: sticky;
+	top: 0;
+	background-color: rgb(247,247,247);
+}
+.card-text.appointment-title {
+	position: -webkit-sticky;
+	position: -moz-sticky;
+	position: -ms-sticky;
+	position: -o-sticky;
+	position: sticky;
+	top: 73px;
+	background-color: #ffffff;
+}

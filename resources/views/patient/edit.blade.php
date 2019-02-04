@@ -8,12 +8,10 @@
                 <div class="card-header">
 									{{ __('patientcare.editPatient') }}
 								</div>
-								
-
-                <div class="card-body">
-									<form method="POST" action="/patient/{{ $patient->id }}">
-										@csrf
-										@method("PATCH")
+								<form method="POST" action="/patient/{{ $patient->id }}">
+									@csrf
+									@method("PATCH")
+									<div class="card-body">
 										<div class="form-group row">
 											<label for="name" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.name') }}</label>
 
@@ -27,7 +25,6 @@
 												@endif
 											</div>
 										</div>
-
 										<div class="form-group row">
 											<label for="lastNames" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.lastNames') }}</label>
 
@@ -41,7 +38,6 @@
 												@endif
 											</div>
 										</div>
-
 										<div class="form-group row">
 											<label for="birthdate" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.birthdate') }}</label>
 
@@ -55,7 +51,6 @@
 												@endif
 											</div>
 										</div>
-
 										<div class="form-group row">
 											<label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.gender') }}</label>
 
@@ -75,7 +70,6 @@
 												@endif
 											</div>
 										</div>
-
 										<div class="form-group row">
 											<label for="email" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.email') }}</label>
 
@@ -89,7 +83,6 @@
 												@endif
 											</div>
 										</div>
-
 										<div class="form-group row">
 											<label for="idInsurance" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.insurance') }}</label>
 
@@ -118,11 +111,29 @@
 											</a>
 											</div>
 										</div>
+									</div>
+									<div class="card-body">
+										@foreach ($medHist as $medHistory)
+										<div class="form-group row">
+											<label for="{{ $medHistory->id }}" class="col-md-4 col-form-label text-md-right">{{ $medHistory->name }}</label>
 
+											<div class="col-md-6">
+												<textarea id="{{ $medHistory->id }}"  class="form-control{{ $errors->has('$medHistory->id') ? ' is-invalid' : '' }}" name="{{ $medHistory->id }}">{{ $medHistory->histRecord }}</textarea>
+
+												@if ($errors->has('$medHistory->id'))
+													<span class="invalid-feedback" role="alert">
+														<strong>{{ $errors->first('$medHistory->id') }}</strong>
+													</span>
+												@endif
+											</div>
+										</div>
+										@endforeach
+									</div>
+									<div class="card-body">
 										<a href="/patient"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
 										<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.edit') }}</button>
-									</form>
-                </div>
+									</div>
+								</form>
             </div>
         </div>
     </div>

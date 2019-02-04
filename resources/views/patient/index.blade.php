@@ -33,6 +33,7 @@
 												<td>{{ $patient->email}}</td>
 												<td> 
 													<div class="btn-group" role="group" aria-label="Basic example">
+														@if (Auth::user()->hasPermission('patient_edit'))
 														<a href="/patient/{{ $patient->id }}/edit">
 															<button 
 																type="button" 
@@ -40,6 +41,7 @@
 																<i class="fas fa-edit"></i>
 															</button>
 														</a>
+														@endif
 														@if (Auth::user()->hasPermission('patient_delete'))
 														<button 
 															type="button" 
