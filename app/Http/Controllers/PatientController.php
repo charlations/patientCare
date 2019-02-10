@@ -55,7 +55,7 @@ class PatientController extends Controller
 				'name' => ['required', 'min:2'],
 				'lastNames' => 'nullable',
 				'birthdate' => ['required', 'date'],
-				'gender' => ['required', 'regex:/^(genderH|genderM|genderO)$/'],
+				'gender' => ['required', 'regex:/^(genderF|genderM|genderO)$/'],
 				'email' => ['nullable', 'email'],
 				'idInsurance' => ['nullable', 'exists:mysql.insurances,id']
 			]));
@@ -116,11 +116,12 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
+				dd($request);
 				$patient->update($request->validate([
 					'name' => ['required', 'min:2'],
 					'lastNames' => 'nullable',
 					'birthdate' => ['required', 'date'],
-					'gender' => ['required', 'regex:/^(Hombre|Mujer|Otro)$/'],
+					'gender' => ['required', 'regex:/^(genderF|genderM|genderO)$/'],
 					'email' => ['nullable', 'email'],
 					'idInsurance' => ['nullable', 'exists:mysql.insurances,id']
 				]));

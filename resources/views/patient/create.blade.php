@@ -62,9 +62,9 @@
 
 												<select class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}" id="exampleFormControlSelect1" id="gender" name="gender" required>
 													<option>{{ __('patientcare.select') }}</option>
-													<option value="Hombre" {{ old('gender') == 'Hombre' ? 'selected' : ''}}>Hombre</option>
-													<option value="Mujer" {{ old('gender') == 'Mujer' ? 'selected' : ''}}>Mujer</option>
-													<option value="Otro" {{ old('gender') == 'Otro' ? 'selected' : ''}}>Otro</option>
+													<option value="genderM" {{ old('gender') == 'genderM' ? 'selected' : ''}}>{{ __('patientcare.genderM') }}</option>
+													<option value="genderF" {{ old('gender') == 'genderF' ? 'selected' : ''}}>{{ __('patientcare.genderF') }}</option>
+													<option value="genderO" {{ old('gender') == 'genderO' ? 'selected' : ''}}>{{ __('patientcare.genderO') }}</option>
 												</select>
 
 												@if ($errors->has('gender'))
