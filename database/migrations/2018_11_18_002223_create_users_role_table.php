@@ -14,6 +14,7 @@ class CreateUsersRoleTable extends Migration
     public function up()
     {
         Schema::create('usersRole', function (Blueprint $table) {
+					$table->increments('id');
 					$table->integer('idUser')->unsigned()->index();
 					$table->integer('idRole')->unsigned()->index();
 					$table->text('notes');
@@ -23,7 +24,6 @@ class CreateUsersRoleTable extends Migration
 					$table->foreign('idRole')
 						->references('id')->on('roles')
 						->onDelete('cascade');
-					$table->primary(['idUser', 'idRole']);
         });
     }
 

@@ -70,7 +70,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        //dd($patient, $patient->id);
+        /* OLD
 				$medHist = DB::table('medHistList')
 					->leftJoin('medHistory', function($join) use(&$patient) {
 						$join->on('medHistList.id', '=', 'medHistory.idMedHistList')
@@ -81,10 +81,20 @@ class PatientController extends Controller
 					->join('medHistList', function ($join) {
 						$join->on('medHistory.idMedHistList', '=', 'medHistList.id');
 					})
-					->get(); */
+					->get(); */ /* OLD */
+				$medHistList = DB::table('medHistList')->get();
+				$medHistHistory = DB::table('medHistory')->where('idPatient', $patient->id)->get();
+				foreach($medHistList as $listItem) {
+					$listItem->histRecord = NULL;
+					foreach($medHistHistory as $medHistItem) {
+						if($listItem->id == $medHistItem->idMedHistList) {
+							$listItem->histRecord = $medHistItem->histRecord;
+						}
+					}
+				}
 				$age = Patient::getAge($patient->birthdate);
-				//dd(compact('medHist', 'patient', 'age'), $age);
-				return view('patient.show', ['medHist' => $medHist])
+				//dd(compact('medHistory'));
+				return view('patient.show', compact('medHistList'))
 					->with(compact('patient'))
 					->with('patientAge', $age);
     }
@@ -98,13 +108,28 @@ class PatientController extends Controller
     public function edit(Patient $patient)
     {
 				$insurances = DB::table('insurances')->get();
+				$medHistList = DB::table('medHistList')->get();
+				$medHistHistory = DB::table('medHistory')->where('idPatient', $patient->id)->get();
+				foreach($medHistList as $listItem) {
+					$listItem->histRecord = NULL;
+					foreach($medHistHistory as $medHistItem) {
+						if($listItem->id == $medHistItem->idMedHistList) {
+							$listItem->histRecord = $medHistItem->histRecord;
+						}
+					}
+				}
+				//dd(compact('patient'), compact('insurances'), compact('medHistList'));
+				return view('patient.edit', compact('patient'))
+					->with(compact('medHistList'))
+					->with(compact('insurances'));
+				/* OLD
 				$medHist = DB::table('medHistList')
 					->leftJoin('medHistory', function($join) use(&$patient) {
 						$join->on('medHistList.id', '=', 'medHistory.idMedHistList')
 									->where('medHistory.idPatient', '=', $patient->id);
 					})->get();
-				//dd(compact('patient'), compact('medHist'), compact('insurances'));
-        return view('patient.edit', compact('patient'), ['insurances' => $insurances, 'medHist' => $medHist]);
+				dd(compact('patient'), compact('medHist'), compact('insurances'));
+        return view('patient.edit', compact('patient'), ['insurances' => $insurances, 'medHist' => $medHist]); /* OLD */
     }
 
     /**
@@ -116,7 +141,13 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
-				dd($request);
+				/*  $tempArray = [];
+				foreach($request->except(['_token', '_method', 'name', 'lastNames', 'birthdate', 'gender', 'email', 'idInsurance']) as $histReqKey => $histReqPart) {
+					array_push($tempArray, $histReqKey);
+					array_push($tempArray, $histReqPart);
+				}
+				dd($request, $patient->id, $tempArray); /*  */
+				//dd($request->except(['_token', '_method', 'name', 'lastNames', 'birthdate', 'gender', 'email', 'idInsurance']));
 				$patient->update($request->validate([
 					'name' => ['required', 'min:2'],
 					'lastNames' => 'nullable',
@@ -125,7 +156,12 @@ class PatientController extends Controller
 					'email' => ['nullable', 'email'],
 					'idInsurance' => ['nullable', 'exists:mysql.insurances,id']
 				]));
-				return redirect()->route('patient.index');
+				// HERE
+				foreach($request->except(['_token', '_method', 'name', 'lastNames', 'birthdate', 'gender', 'email', 'idInsurance']) as $histReqKey => $histReqPart) {
+					$histMed = MedHistory::updateOrCreate(['idMedHistList' => $histReqKey, 'idPatient' => $patient->id], ['idPatient' => $patient->id, 'idMedHistList' => $histReqKey, 'histRecord' => $histReqPart]);
+				}
+				// TO HERE
+				return redirect()->action('PatientController@show', $patient);
     }
 
     /**

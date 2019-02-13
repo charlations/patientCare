@@ -39,11 +39,11 @@
 				</div>
 				<div class="card-body">
 					<h5 class="card-title">{{ __('patientcare.medicalHistory') }}</h5>
-					@foreach ($medHist as $medHistory)
+					@foreach ($medHistList as $medListItem)
 					<p class="card-text">
 						<!-- TODO: change to 'eng_name' when in english -->
-						<strong>{{ $medHistory->name }} </strong>
-						{{ $medHistory->histRecord }}
+						<strong>{{ $medListItem->name }} </strong>
+						{{ $medListItem->histRecord }}
 					</p>
 					@endforeach
 				</div>

@@ -34,9 +34,9 @@ Default Routes:
 > GET 		/insurance 				(index)		Route::get()
 > GET			/insurance/i			(show) 		Route::get()
 > POST 		/insurance 				(store) 	Route::post()
-> GET			/insurance/1/edit (edit) 		Route::get()
-> PATCH 	/insurance/1 			(update) 	Route::patch()
-> DELETE 	/insurance/1 			(destroy) Route::delete()
+> GET			/insurance/i/edit (edit) 		Route::get()
+> PATCH 	/insurance/i 			(update) 	Route::patch()
+> DELETE 	/insurance/i 			(destroy) Route::delete()
 > ---------------------------------------------------
 > ALL 																Route::resource()
 

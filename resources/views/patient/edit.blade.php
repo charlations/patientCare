@@ -113,7 +113,7 @@
 										</div>
 									</div>
 									<div class="card-body">
-										@foreach ($medHist as $medHistory)
+										@foreach ($medHistList as $medHistory)
 										<div class="form-group row">
 											<label for="{{ $medHistory->id }}" class="col-md-4 col-form-label text-md-right">{{ $medHistory->name }}</label>
 

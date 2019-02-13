@@ -14,6 +14,7 @@ class CreateMedHistTable extends Migration
     public function up()
     {
         Schema::create('medHistory', function (Blueprint $table) {
+						$table->increments('id');
             $table->integer('idPatient')->unsigned();
 						$table->integer('idMedHistList')->unsigned();
 						$table->text('histRecord')->nullable()->default(null);
@@ -24,7 +25,6 @@ class CreateMedHistTable extends Migration
 						$table->foreign('idMedHistList')
 								->references('id')->on('medHistList')
 								->onDelete('cascade');
-						$table->primary(['idPatient', 'idMedHistList']);
         });
     }
 
