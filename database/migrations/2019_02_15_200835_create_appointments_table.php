@@ -16,25 +16,37 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
 						$table->increments('id');
 						$table->integer('idPatient')->unsigned();
-						$table->text('symptoms');
-						$table->text('diagnosis');
-						$table->text('exploration');
-						$table->text('treatment');
-						
+						$table->text('symptoms')->nullable();
+						$table->text('exploration')->nullable();
+						$table->integer('heartrate')->nullable();
+						$table->string('bloodpressure', 9)->nullable();
+						$table->decimal('temp', 6, 2)->nullable();
+						$table->string('weight', 9)->nullable();
+						$table->string('height', 9)->nullable();
+						$table->text('prevStudies')->nullable();
+						$table->string('diagnosis', 255)->nullable();
+						$table->text('treatment')->nullable();
             $table->timestamps();
+						$table->foreign('idPatient')
+							->references('id')->on('patients')
+							->onDelete('cascade');
         });
 		}
 		/**
 		 * id paciente
 		 * fechas
 		 * symptoms
-		 * diagnosis
 		 * exploration
-		 * treatment
 		 * heartrate
-		 * blood pressure
+		 * blood pressure (tensión arterial)
 		 * temp
-		 * bool follow up
+		 * weight
+		 * height (talla)
+		 * índice de masa corporal
+		 * prev studies
+		 * diagnosis
+		 * treatment
+		 * 
 		 */
 
     /**

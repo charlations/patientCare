@@ -92,10 +92,13 @@ class PatientController extends Controller
 						}
 					}
 				}
+				// Para formatear la fecha en el blade: "{{ date('d/m/Y', strtotime($appoint->created_at)) }}"
+				$appointments = DB::table('appointments')->where('idPatient', $patient->id)->orderBy('created_at', 'desc')->get();
 				$age = Patient::getAge($patient->birthdate);
-				//dd(compact('medHistory'));
+				//dd(compact('appointments'));
 				return view('patient.show', compact('medHistList'))
 					->with(compact('patient'))
+					->with(compact('appointments'))
 					->with('patientAge', $age);
     }
 

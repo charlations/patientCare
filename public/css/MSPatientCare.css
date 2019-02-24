@@ -40,3 +40,16 @@
 	top: 73px;
 	background-color: #ffffff;
 }
+.underline {
+	text-decoration: underline;
+}
+.appointment-text {
+	padding-left: 3%;
+}
+div#appointmentAccordion div.collapse:not(:first-child) {
+}
+.appointment-title:not(:first-child) {
+	padding-top: 2%;
+	margin-top: 3%;
+	border-top: solid #bfbaba 1px;
+}
