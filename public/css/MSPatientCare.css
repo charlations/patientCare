@@ -5,7 +5,6 @@
 	float: left;
 }
 .btn-icon {
-	padding: 0.3 rem;
 	line-height: 1;
 }
 .navbar-light .navbar-nav .nav-link {
@@ -43,8 +42,13 @@
 .underline {
 	text-decoration: underline;
 }
+.appointment-subtitle {
+	padding-left: 2%;
+	margin-bottom: 0px;
+}
 .appointment-text {
-	padding-left: 3%;
+	padding-left: 5%;
+	margin-bottom: 0.5rem;
 }
 div#appointmentAccordion div.collapse:not(:first-child) {
 }
@@ -52,4 +56,12 @@ div#appointmentAccordion div.collapse:not(:first-child) {
 	padding-top: 2%;
 	margin-top: 3%;
 	border-top: solid #bfbaba 1px;
+}
+.info-text {
+	margin-bottom: 0.2rem;
+	color: #359aec;
+	font-size: medium;
+}
+.align-center {
+	text-align: center;
 }

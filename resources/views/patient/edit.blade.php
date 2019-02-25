@@ -115,7 +115,13 @@
 									<div class="card-body">
 										@foreach ($medHistList as $medHistory)
 										<div class="form-group row">
-											<label for="{{ $medHistory->id }}" class="col-md-4 col-form-label text-md-right">{{ $medHistory->name }}</label>
+											<label for="{{ $medHistory->id }}" class="col-md-4 col-form-label text-md-right">
+												@if (App::isLocale('es'))
+													{{ $medHistory->name }}
+												@elseif (App::isLocale('en'))
+													{{ $medHistory->eng_name }}
+												@endif
+											</label>
 
 											<div class="col-md-6">
 												<textarea id="{{ $medHistory->id }}"  class="form-control{{ $errors->has('$medHistory->id') ? ' is-invalid' : '' }}" name="{{ $medHistory->id }}">{{ $medHistory->histRecord }}</textarea>
@@ -130,7 +136,7 @@
 										@endforeach
 									</div>
 									<div class="card-body">
-										<a href="/patient"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
+										<a href="/patient/{{ $patient->id }}"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
 										<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.edit') }}</button>
 									</div>
 								</form>

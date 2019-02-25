@@ -5,7 +5,7 @@
 	<div class="row justify-content-center">
 		<div class="col-md-8">
 			<div class="card">
-				<div class="card-header">{{ __('patientcare.newAppointment') }} {{ $patient->name }} {{ $patient->lastNames }}</div>
+				<div class="card-header">{{ __('patientcare.newAppointment') }} - {{ $patient->name }} {{ $patient->lastNames }}</div>
 
 				<div class="card-body">
 						
@@ -50,7 +50,7 @@
 							</div>
 							<div class="form-group col-md-2">
 								<label for="temp">{{ __('patientcare.temp') }}</label>
-								<input id="temp" type="text" class="form-control{{ $errors->has('temp') ? ' is-invalid' : '' }}" name="temp" autofocus>
+								<input id="temp" type="text" class="form-control{{ $errors->has('temp') ? ' is-invalid' : '' }}" name="temp" placeholder="°{{ __('patientcare.tempUnit') }}" autofocus>
 								@if ($errors->has('temp'))
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $errors->first('temp') }}</strong>
@@ -63,7 +63,7 @@
 							</div>
 							<div class="form-group col-md-2">
 								<label for="weight">{{ __('patientcare.weight') }}</label>
-								<input id="weight" type="text" class="form-control{{ $errors->has('weight') ? ' is-invalid' : '' }}" name="weight" autofocus>
+								<input id="weight" type="text" class="form-control{{ $errors->has('weight') ? ' is-invalid' : '' }}" name="weight" placeholder="{{ __('patientcare.weightUnit') }}" autofocus>
 								@if ($errors->has('weight'))
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $errors->first('weight') }}</strong>
@@ -72,7 +72,7 @@
 							</div>
 							<div class="form-group col-md-2">
 								<label for="height">{{ __('patientcare.height') }}</label>
-								<input id="height" type="text" class="form-control{{ $errors->has('height') ? ' is-invalid' : '' }}" name="height" autofocus>
+								<input id="height" type="text" class="form-control{{ $errors->has('height') ? ' is-invalid' : '' }}" name="height" placeholder="{{ __('patientcare.heightUnit') }}" autofocus>
 								@if ($errors->has('height'))
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $errors->first('height') }}</strong>
@@ -140,7 +140,7 @@
 						<div class="form-group row mb-0">
 							<div class="col-md-8 offset-md-4">
 								<a href="/patient/{{ $patient->id }}"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
-								<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.save') }}</button>
+								<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
 							</div>
 						</div>
 					</form>
