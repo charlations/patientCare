@@ -39,6 +39,9 @@
 	top: 73px;
 	background-color: #ffffff;
 }
+.card-text.appointment-title.index-appointment-title {
+	top: 54px;
+}
 .underline {
 	text-decoration: underline;
 }

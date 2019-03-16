@@ -37,6 +37,7 @@ Route::resource('/insurance', 'InsuranceController');
 Route::resource('/user', 'UserController');
 Route::resource('/patient', 'PatientController');
 Route::resource('patient.appointment', 'AppointmentController');
+Route::get('appointment', 'AppointmentController@indexAll');
 
 // Google Login Controller
 Route::get('/redirect', 'SocialAuthGoogleController@redirect');

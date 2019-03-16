@@ -9,10 +9,18 @@ class InsuranceController extends Controller
 {
     /**
 		 * Require user be logged in
+		 * Check permissions via middleware for all necessary functions
 		 */
 		public function __construct()
 		{
 				$this->middleware('auth');
+				$this->middleware('permission:insurance_index')->only('index');
+				$this->middleware('permission:insurance_create')->only('create');
+				$this->middleware('permission:insurance_create')->only('store');
+				$this->middleware('permission:insurance_view')->only('show');
+				$this->middleware('permission:insurance_edit')->only('edit');
+				$this->middleware('permission:insurance_edit')->only('update');
+				$this->middleware('permission:insurance_delete')->only('destroy');
 		}
 		
     /**

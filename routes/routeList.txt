@@ -1,0 +1,45 @@
+| Method    | URI                                              | Name                        | Action                                            | Middleware                         |
++-----------+--------------------------------------------------+-----------------------------+---------------------------------------------------+------------------------------------+
+| GET|HEAD  | /                                                |                             | Closure                                           | web                                |
+| GET|HEAD  | api/user                                         |                             | Closure                                           | api,auth:api                       |
+| GET|HEAD  | callback                                         |                             | SocialAuthGoogleController@callback               | web                                |
+| GET|HEAD  | home                                             | home                        | HomeController@index                              | web,auth                           |
+| POST      | insurance                                        | insurance.store             | InsuranceController@store                         | web,auth                           |
+| GET|HEAD  | insurance                                        | insurance.index             | InsuranceController@index                         | web,auth                           |
+| GET|HEAD  | insurance/create                                 | insurance.create            | InsuranceController@create                        | web,auth                           |
+| DELETE    | insurance/{insurance}                            | insurance.destroy           | InsuranceController@destroy                       | web,auth                           |
+| PUT|PATCH | insurance/{insurance}                            | insurance.update            | InsuranceController@update                        | web,auth                           |
+| GET|HEAD  | insurance/{insurance}                            | insurance.show              | InsuranceController@show                          | web,auth                           |
+| GET|HEAD  | insurance/{insurance}/edit                       | insurance.edit              | InsuranceController@edit                          | web,auth                           |
+| GET|HEAD  | login                                            | login                       | Auth\LoginController@showLoginForm                | web,guest                          |
+| POST      | login                                            |                             | Auth\LoginController@login                        | web,guest                          |
+| POST      | logout                                           | logout                      | Auth\LoginController@logout                       | web                                |
+| POST      | password/email                                   | password.email              | Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest                          |
+| POST      | password/reset                                   | password.update             | Auth\ResetPasswordController@reset                | web,guest                          |
+| GET|HEAD  | password/reset                                   | password.request            | Auth\ForgotPasswordController@showLinkRequestForm | web,guest                          |
+| GET|HEAD  | password/reset/{token}                           | password.reset              | Auth\ResetPasswordController@showResetForm        | web,guest                          |
+| GET|HEAD  | patient                                          | patient.index               | PatientController@index                           | web,auth                           |
+| POST      | patient                                          | patient.store               | PatientController@store                           | web,auth                           |
+| GET|HEAD  | patient/create                                   | patient.create              | PatientController@create                          | web,auth                           |
+| DELETE    | patient/{patient}                                | patient.destroy             | PatientController@destroy                         | web,auth,permission:patient_delete |
+| PUT|PATCH | patient/{patient}                                | patient.update              | PatientController@update                          | web,auth                           |
+| GET|HEAD  | patient/{patient}                                | patient.show                | PatientController@show                            | web,auth                           |
+| POST      | patient/{patient}/appointment                    | patient.appointment.store   | AppointmentController@store                       | web                                |
+| GET|HEAD  | patient/{patient}/appointment                    | patient.appointment.index   | AppointmentController@index                       | web                                |
+| GET|HEAD  | patient/{patient}/appointment/create             | patient.appointment.create  | AppointmentController@create                      | web                                |
+| GET|HEAD  | patient/{patient}/appointment/{appointment}      | patient.appointment.show    | AppointmentController@show                        | web                                |
+| PUT|PATCH | patient/{patient}/appointment/{appointment}      | patient.appointment.update  | AppointmentController@update                      | web                                |
+| DELETE    | patient/{patient}/appointment/{appointment}      | patient.appointment.destroy | AppointmentController@destroy                     | web                                |
+| GET|HEAD  | patient/{patient}/appointment/{appointment}/edit | patient.appointment.edit    | AppointmentController@edit                        | web                                |
+| GET|HEAD  | patient/{patient}/edit                           | patient.edit                | PatientController@edit                            | web,auth                           |
+| GET|HEAD  | redirect                                         |                             | SocialAuthGoogleController@redirect               | web                                |
+| POST      | register                                         |                             | Auth\RegisterController@register                  | web,guest                          |
+| GET|HEAD  | register                                         | register                    | Auth\RegisterController@showRegistrationForm      | web,guest                          |
+| POST      | user                                             | user.store                  | UserController@store                              | web,auth                           |
+| GET|HEAD  | user                                             | user.index                  | UserController@index                              | web,auth                           |
+| GET|HEAD  | user/create                                      | user.create                 | UserController@create                             | web,auth                           |
+| DELETE    | user/{user}                                      | user.destroy                | UserController@destroy                            | web,auth                           |
+| PUT|PATCH | user/{user}                                      | user.update                 | UserController@update                             | web,auth                           |
+| GET|HEAD  | user/{user}                                      | user.show                   | UserController@show                               | web,auth                           |
+| GET|HEAD  | user/{user}/edit                                 | user.edit                   | UserController@edit                               | web,auth                           |
++-----------+--------------------------------------------------+-----------------------------+---------------------------------------------------+------------------------------------+

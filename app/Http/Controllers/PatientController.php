@@ -18,6 +18,8 @@ class PatientController extends Controller
 		public function __construct()
 		{
 				$this->middleware('auth');
+				$this->middleware('permission:patient_index')->only('index');
+				$this->middleware('permission:patient_create')->only('create');
 				$this->middleware('permission:patient_delete')->only('destroy');
 		}
 		
@@ -92,7 +94,7 @@ class PatientController extends Controller
 						}
 					}
 				}
-				// Para formatear la fecha en el blade: "{{ date('d/m/Y', strtotime($appoint->created_at)) }}"
+				/* Para formatear la fecha en el blade: "{{ date('d/m/Y', strtotime($appoint->created_at)) }}" - https://stackoverflow.com/questions/40038521/change-the-date-format-in-laravel-view-page */
 				$appointments = DB::table('appointments')->where('idPatient', $patient->id)->orderBy('created_at', 'desc')->get();
 				$age = Patient::getAge($patient->birthdate);
 				//dd(compact('patient', 'medHistList', 'appointments'), sizeof($medHistHistory));

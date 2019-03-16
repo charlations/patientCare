@@ -84,11 +84,13 @@
 						@foreach ($appointments as $appoint)
 						<p class="card-text appointment-title" id="heading{{ $appoint->id }}" data-toggle="collapse" data-target="#collapse{{ $appoint->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $appoint->id }}">
 							<strong>{{ $appoint->diagnosis }} - {{ date('d/m/Y', strtotime($appoint->created_at)) }}</strong>
+							@if (Auth::user()->hasPermission('appointment_edit'))
 							<span class="pull-right">
 								<a href="/patient/{{ $patient->id }}/appointment/{{ $appoint->id }}/edit" data-toggle="tooltip" data-placement="top" title="{{ __('patientcare.edit') }} {{ __('patientcare.appointment') }}">
 									<i class="fas fa-edit"></i>
 								</a>
 							</span>
+							@endif
 						</p>
 						<div id="collapse{{ $appoint->id }}" class="collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $appoint->id }}">
 							<p class="card-text underline appointment-subtitle">{{ __('patientcare.symptoms') }}</p>

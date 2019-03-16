@@ -45,7 +45,7 @@
 														<a class="nav-link" href="/patient"> {{ __('patientcare.patients') }} </a>
 												</li>
 												<li class="nav-item disabled">
-														<a class="nav-link" href="#"> {{ __('patientcare.appointments') }} </a>
+														<a class="nav-link" href="/appointment"> {{ __('patientcare.appointments') }} </a>
 												</li>
 												<li class="nav-item">
 														<a class="nav-link" href="#"> {{ __('patientcare.calendar') }} </a>

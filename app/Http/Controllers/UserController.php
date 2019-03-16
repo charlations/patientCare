@@ -11,10 +11,16 @@ class UserController extends Controller
 {
 		/**
 		 * Require user be logged in
+		 * Check permissions via middleware for all necesary functions
 		 */
 		public function __construct()
 		{
 				$this->middleware('auth');
+				$this->middleware('permission:user_index')->only('index');
+				$this->middleware('permission:user_view')->only('show');
+				$this->middleware('permission:user_edit')->only('edit');
+				$this->middleware('permission:user_edit')->only('update');
+				$this->middleware('permission:user_delete')->only('destroy');
 		}
 		
     /**
@@ -24,7 +30,7 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-				$this->authorize('index', $user);
+				//$this->authorize('index', $user);
 				$users = DB::table('users')->where('active', '=', '1')->get();
 				return view('user.index', ['users' => $users]);
 
@@ -41,7 +47,7 @@ class UserController extends Controller
 			$tempUser = $user;
 			//$user = User::findOrFail($id);
 			//dd($user);
-			$this->authorize('view', $tempUser);
+			//$this->authorize('view', $tempUser);
 			return view('user.show', compact('user'));
     }
 
@@ -81,7 +87,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-				$this->authorize('delete', auth()->user());
+				//$this->authorize('delete', auth()->user());
 				$user->update(['active' => 0]);
 				return redirect('/user');
     }
