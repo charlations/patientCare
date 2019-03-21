@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+//For switchLocale
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -90,5 +92,24 @@ class UserController extends Controller
 				//$this->authorize('delete', auth()->user());
 				$user->update(['active' => 0]);
 				return redirect('/user');
+		}
+		
+		/**
+		 * Change localization setting (language). Reference: https://stackoverflow.com/questions/45433877/laravel-5-4-proper-way-to-store-locale-setlocale.
+		 * 
+		 * @param Request $request
+		 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+		 */
+		public function switchLocale(Request $request)
+    {
+			if (!empty($request->userLocale)) {
+				$locale = $request->userLocale;
+				if (!in_array($locale, ['en', 'es'])) {
+					$locale = 'en';
+				}
+				app()->setLocale($locale);
+				Session::put('locale', $locale);
+			}
+			return redirect($request->header("referer"));
     }
 }

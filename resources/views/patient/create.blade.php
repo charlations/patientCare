@@ -94,7 +94,7 @@
 
 											<div class="col-md-6">
 
-												<select class="form-control{{ $errors->has('idInsurance') ? ' is-invalid' : '' }}" id="exampleFormControlSelect1" id="idInsurance" name="idInsurance" required>
+												<select class="form-control{{ $errors->has('idInsurance') ? ' is-invalid' : '' }}" id="idInsurance" name="idInsurance" required>
 													<option>{{ __('patientcare.select') }}</option>
 													@foreach ($insurances as $insurance)
 														<option value="{{ $insurance->id }}" {{ old('idInsurance') == $insurance->id ? 'selected' : ''}}>

@@ -68,3 +68,8 @@ div#appointmentAccordion div.collapse:not(:first-child) {
 .align-center {
 	text-align: center;
 }
+.dropdown-item#userLocale:active {
+	color: #212529;
+	text-decoration: none;
+	background-color: transparent;
+}

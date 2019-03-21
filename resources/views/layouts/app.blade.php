@@ -82,6 +82,14 @@
 															</a>
 
 															<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownButton">
+																<form id="localization-form" action="switchLocale" method="POST">
+																	@csrf
+																	<select class="dropdown-item" id="userLocale" name="userLocale" onchange="this.form.submit()">
+																		<option value="es" {{ (!Session::has('locale') || (Session::has('locale') && Session::get('locale') == 'es')) ? 'selected' : '' }}>ES</option>
+																		<option value="en" {{ (Session::has('locale') && Session::get('locale') == 'en') ? 'selected' : '' }}>EN</option>
+																	</select>
+																	{{ Session::has('locale') ? 'Session: ' . Session::get('locale') : '' }} App: {{ App::getLocale() }}
+																</form>
 																<a class="dropdown-item" href="{{ route('logout') }}"
 																	onclick="event.preventDefault();
 																	document.getElementById('logout-form').submit();">
