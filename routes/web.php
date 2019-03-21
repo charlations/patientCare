@@ -32,7 +32,7 @@ Route::get('/', function () {
 
 Auth::routes();
 // Controllers
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'PatientController@index')->name('home');
 Route::resource('/insurance', 'InsuranceController');
 Route::resource('/user', 'UserController');
 Route::resource('/patient', 'PatientController');
