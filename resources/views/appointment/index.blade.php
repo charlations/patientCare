@@ -7,12 +7,12 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="pull-left">
-						<h5>
-							<strong>{{ __('patientcare.appointments') }}</strong>
-							@if (isset($patient))
-							<span> - <a href="/patient/{{ $patient->id }}" style="color:#000;">{{ $patient->name }} {{ $patient->lastNames }}</a></span>
-							@endif
-						</h5>
+						@if (isset($patient))
+						<strong>{{ __('patientcare.appointments') }}</strong>
+						<span> - <a href="/patient/{{ $patient->id }}" style="color:#000;">{{ $patient->name }} {{ $patient->lastNames }}</a></span>
+						@else
+						{{ __('patientcare.appointments') }}
+						@endif
 					</div>
 					<div class="pull-right">
 						@if (Auth::user()->hasPermission('appointment_create'))

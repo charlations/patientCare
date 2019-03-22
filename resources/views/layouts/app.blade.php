@@ -88,7 +88,7 @@
 																		<option value="es" {{ (!Session::has('locale') || (Session::has('locale') && Session::get('locale') == 'es')) ? 'selected' : '' }}>ES</option>
 																		<option value="en" {{ (Session::has('locale') && Session::get('locale') == 'en') ? 'selected' : '' }}>EN</option>
 																	</select>
-																	{{ Session::has('locale') ? 'Session: ' . Session::get('locale') : '' }} App: {{ App::getLocale() }}
+																	{{-- Session::has('locale') ? 'Session: ' . Session::get('locale') : '' }} App: {{ App::getLocale() --}}
 																</form>
 																<a class="dropdown-item" href="{{ route('logout') }}"
 																	onclick="event.preventDefault();
