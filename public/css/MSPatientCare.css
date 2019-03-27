@@ -7,6 +7,12 @@
 .btn-icon {
 	line-height: 1;
 }
+.btn-circle {
+	padding: 0.2rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 50%;
+}
 .navbar-light .navbar-nav .nav-link {
 	color: rgb(52, 143, 220);
 }
@@ -72,4 +78,7 @@ div#appointmentAccordion div.collapse:not(:first-child) {
 	color: #212529;
 	text-decoration: none;
 	background-color: transparent;
+}
+.form-control.multiple-inputs {
+	margin-bottom: 1rem;
 }

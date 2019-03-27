@@ -58,8 +58,8 @@ class InsuranceController extends Controller
 				'notes' => 'nullable'
 			]));
 			if( $request->filled('name') || $request->filled('lastNames') || $request->filled('birthdate') || $request->filled('gender') || $request->filled('email') ) {
-				//dd("HAS PATIENT PARAMETERS", $request->except(['_token', 'insuranceName', 'notes']));
-				return redirect()->route('patient.create')->withInput(
+				//dd("HAS PATIENT PARAMETERS", $request->except(['_token', 'insuranceName', 'notes']), $request->header("referer"));
+				return redirect($request->header("referer"))->withInput(
 					$request->except(['_token', 'insuranceName', 'notes'])
 				);
 			}

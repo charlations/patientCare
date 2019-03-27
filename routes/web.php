@@ -37,6 +37,12 @@ Route::resource('/insurance', 'InsuranceController');
 Route::resource('/user', 'UserController');
 Route::resource('/patient', 'PatientController');
 Route::resource('patient.appointment', 'AppointmentController');
+//Route::resource('user.roles', 'UserRolesController');
+
+// Partial Controllers
+Route::post('user/{user}/roles', 'UserRolesController@store')->name('user.roles.store');
+Route::match(['put', 'patch'], 'user/{user}/roles/{role}', 'UserRolesController@update')->name('user.roles.update');
+Route::delete('user/{user}/roles/{role}', 'UserRolesController@destroy')->name('user.roles.destroy');
 
 // Specific Controllers
 Route::get('/appointment', 'AppointmentController@indexAll');

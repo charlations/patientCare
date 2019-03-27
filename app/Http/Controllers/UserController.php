@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Role;
+use App\UserRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +63,18 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-				return view('user.edit', compact('user'));
+			$roles = Role::all();
+			$userRoles = UserRoles::where('idUser', $user->id)
+			//$userRoles = DB::table('usersRole')->where('idUser', $user->id)
+				//->select('idRole')
+				->orderBy('idRole', 'asc')
+				->get();
+			$idUsRoles = [];
+			foreach($userRoles as &$uRol) {
+				array_push($idUsRoles, $uRol->idRole);
+			}
+			//dd(compact('user', 'roles', 'userRoles', 'idUsRoles'), $idUsRoles);
+			return view('user.edit', compact('user', 'roles', 'userRoles', 'idUsRoles'));
     }
 
     /**

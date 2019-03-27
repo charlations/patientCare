@@ -88,7 +88,7 @@
 
 											<div class="col-md-6">
 
-												<select class="form-control{{ $errors->has('idInsurance') ? ' is-invalid' : '' }}" id="exampleFormControlSelect1" id="idInsurance" name="idInsurance" required>
+												<select class="form-control{{ $errors->has('idInsurance') ? ' is-invalid' : '' }}" id="idInsurance" name="idInsurance" required>
 													<option>{{ __('patientcare.select') }}</option>
 													@foreach ($insurances as $insurance)
 														<option value="{{ $insurance->id }}" {{ $patient->idInsurance == $insurance->id ? 'selected' : ''}}>
@@ -104,11 +104,9 @@
 												@endif
 											</div>
 											<div class="col-md-1">
-											<a href="/patient/create">
 												<button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#insuranceModal">
 													<i class="fas fa-plus"></i>
 												</button>
-											</a>
 											</div>
 										</div>
 									</div>
@@ -144,14 +142,79 @@
         </div>
     </div>
 </div>
+<!-- CREATE MODAL -->
+<div class="modal" id="insuranceModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.insurance') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+			<form method="POST" action="/insurance" id="insuranceForm">
+      	<div class="modal-body">
+					@csrf
+					<div style="display: none;">
+					<input id="patientname" name="name" type="text" value="{{ $patient->name }}">
+					<input id="patientlastNames" name="lastNames" type="text" value="{{ $patient->lastNames }}">
+					<input id="patientbirthdate" name="birthdate" type="text" value="{{ $patient->birthdate }}">
+					<input id="patientgender" name="gender" type="text" value="{{ $patient->gender }}">
+					<input id="patientemail" name="email" type="text" value="{{ $patient->email }}">
+					</div>
+					<div class="form-group row">
+						<label for="insuranceName" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.insuranceName') }}</label>
+
+						<div class="col-md-6">
+							<input id="insuranceName" type="text" class="form-control{{ $errors->has('insuranceName') ? ' is-invalid' : '' }}" name="insuranceName" value="{{ old('insuranceName') }}" required autofocus>
+
+							@if ($errors->has('insuranceName'))
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $errors->first('insuranceName') }}</strong>
+								</span>
+							@endif
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="notes" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.notes') }}</label>
+
+						<div class="col-md-6">
+							<textarea id="notes" type="text" class="form-control{{ $errors->has('notes') ? ' is-invalid' : '' }}" name="notes" autofocus>{{ old('notes') }}</textarea>
+
+							@if ($errors->has('notes'))
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $errors->first('notes') }}</strong>
+								</span>
+							@endif
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
+					<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
+				</div>
+			</form>
+    </div>
+  </div>
+</div>
 @stop
 @section('script')
 <script>
-	$(document).on("show.bs.modal", '#insuranceDeleteModal', function (e) {
-		var id = $(e.relatedTarget).data('id');
-		$('#insuranceDeleteForm').attr('action', '/insurance/'+id);
-		$("#insuranceDeleteName").html($(e.relatedTarget).data('name'));
-		console.log(id+" - "+$(e.relatedTarget).data('name'))
+	$('#name').change(function() {
+    $('#patientname').val($(this).val());
+	});
+	$('#lastNames').change(function() {
+    $('#patientlastNames').val($(this).val());
+	});
+	$('#birthdate').change(function() {
+    $('#patientbirthdate').val($(this).val());
+	});
+	$('#gender').change(function() {
+    $('#patientgender').val($(this).val());
+	});
+	$('#email').change(function() {
+    $('#patientemail').val($(this).val());
 	});
 </script>
 @endsection
