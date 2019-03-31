@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserRoles extends Model
 {
-    /* Define table name */
+		/* No timestamps */
+		public $timestamps = false;
+		/* Define table name */
 		protected $table = 'usersRole';
 
 		/**

@@ -130,7 +130,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
-					<button type="submit" class="swal-button swal-button--confirm swal-button--danger" tabindex="0">{{ __('patientcare.delete') }}</button>
+					<button type="submit" class="btn btn-danger" tabindex="0">{{ __('patientcare.delete') }}</button>
 				</div>
 			</form>
     </div>

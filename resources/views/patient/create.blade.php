@@ -100,8 +100,12 @@
 							</div>
 						</div>
 
-						<a href="/patient"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
-						<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
+						<div class="form-group row mb-0">
+							<div class="col-md-6 offset-md-4">
+								<a href="/patient"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
+								<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
+							</div>
+						</div>
 					</form>
 				</div>
 			</div>

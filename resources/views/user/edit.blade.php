@@ -55,15 +55,22 @@
 
 							<div class="col-md-6">
 								@foreach ($userRoles as $uRole)
-								<select class="form-control{{ $errors->has($uRole->id) ? ' is-invalid' : '' }}{{ ($loop->last && !($userRoles->count() < $roles->count())) ? '' : ' multiple-inputs' }}" id="{{ $uRole->id }}" name="{{ $uRole->id }}" required>
-									<option>{{ __('patientcare.select') }}</option>
-									@foreach ($roles as $role)
-									<option value="{{ $role->id }}" {{ $uRole->idRole == $role->id ? 'selected' : ''}}>{{ __('patientcare.role'.$role->roleName) }}</option>
-									@endforeach
-								</select>
+								<div class="-input--inline">
+									<select class="-btn-circle--1 form-control{{ $errors->has($uRole->id) ? ' is-invalid' : '' }}{{ ($loop->last && !($userRoles->count() < $roles->count())) ? '' : ' multiple-inputs' }}" id="{{ $uRole->id }}" name="{{ $uRole->id }}" onchange="changeValue('user{{ $uRole->id }}', this.value)" required>
+										<option>{{ __('patientcare.select') }}</option>
+										@foreach ($roles as $role)
+										<option value="{{ $role->id }}" {{ $uRole->idRole == $role->id ? 'selected' : ''}}>{{ __('patientcare.role'.$role->roleName) }}</option>
+										@endforeach
+									</select>
+									<button type="button" class="btn btn-danger btn-icon btn-circle pull-right"
+									data-toggle="modal" 
+									data-target="#deleteRoleModal"
+									data-roleid="{{ $uRole->id }}"
+									data-userid="{{ $user->id }}" ><i class="fas fa-trash-alt"></i></button>
+								</div>
 								@endforeach
 								@if ($userRoles->count() < $roles->count())
-								<button type="button" class="btn btn-light btn-icon btn-circle pull-right"><i class="fas fa-plus"></i></button>
+								<button type="button" class="btn btn-light btn-icon btn-circle pull-right" data-toggle="modal" data-target="#addRoleModal"><i class="fas fa-plus"></i></button>
 								@endif
 
 								@if ($errors->has('role'))
@@ -75,12 +82,12 @@
 						</div>
 
 						<div class="form-group row mb-0">
-								<div class="col-md-6 offset-md-4">
-										<a href="/user"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
-										<button type="submit" class="btn btn-primary">
-												{{ __('patientcare.edit') }}
-										</button>
-								</div>
+							<div class="col-md-6 offset-md-4">
+								<a href="/user"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
+								<button type="submit" class="btn btn-primary">
+									{{ __('patientcare.edit') }}
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -93,30 +100,40 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.userRole') }}</h5>
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.assign') }} {{ __('patientcare.new') }} {{ __('patientcare.role') }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-			<form method="POST" action="/insurance" id="insuranceForm">
+			<form method="POST" action="/user/{{ $user->id }}/roles" id="insuranceForm">
       	<div class="modal-body">
 					@csrf
 					<div style="display: none;">
-					<input id="patientname" name="name" type="text" value="{{ $patient->name }}">
-					<input id="patientlastNames" name="lastNames" type="text" value="{{ $patient->lastNames }}">
-					<input id="patientbirthdate" name="birthdate" type="text" value="{{ $patient->birthdate }}">
-					<input id="patientgender" name="gender" type="text" value="{{ $patient->gender }}">
-					<input id="patientemail" name="email" type="text" value="{{ $patient->email }}">
+						<input id="idUser" name="idUser" type="text" value="{{ $user->id }}">
+						<input id="username" name="name" type="text" value="{{ $user->name }}">
+						<input id="userlastNames" name="lastNames" type="text" value="{{ $user->lastNames }}">
+						<input id="useremail" name="email" type="text" value="{{ $user->email }}">
+						@foreach ($userRoles as $uRole)
+						<input id="user{{ $uRole->id }}" name="{{ $uRole->id }}" type="text" value="{{ $uRole->idRole }}">
+						@endforeach
 					</div>
 					<div class="form-group row">
-						<label for="insuranceName" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.insuranceName') }}</label>
+						<label for="idRole" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.role') }}</label>
 
 						<div class="col-md-6">
-							<input id="insuranceName" type="text" class="form-control{{ $errors->has('insuranceName') ? ' is-invalid' : '' }}" name="insuranceName" value="{{ old('insuranceName') }}" required autofocus>
+							<select class="form-control{{ $errors->has('idRole') ? ' is-invalid' : '' }}" id="idRole" name="idRole" required>
+								<option>{{ __('patientcare.select') }}</option>
+								@foreach ($roles as $role)
+								@if ( in_array($role->id, $idUsRoles) )
+									@continue
+								@endif
+								<option value="{{ $role->id }}" {{ old('idRole') == $role->id ? 'selected' : ''}}>{{ __('patientcare.role'.$role->roleName) }}</option>
+								@endforeach
+							</select>
 
-							@if ($errors->has('insuranceName'))
+							@if ($errors->has('idRole'))
 								<span class="invalid-feedback" role="alert">
-									<strong>{{ $errors->first('insuranceName') }}</strong>
+									<strong>{{ $errors->first('idRole') }}</strong>
 								</span>
 							@endif
 						</div>
@@ -138,7 +155,32 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
-					<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
+					<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.add') }}</button>
+				</div>
+			</form>
+    </div>
+  </div>
+</div>
+<!-- DELETE ROLE MODAL -->
+<div class="modal" id="deleteRoleModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.unassign') }} {{ __('patientcare.role') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+			<form method="POST" action="/user/{{ $user->id}}/roles/" id="userroleDeleteForm">
+				@csrf
+				@method("DELETE")
+				<div class="modal-body">
+					<h3>{{ __('patientcare.¿') }}{{ __('patientcare.areYouSure') }}?</h3>
+					<h5>{{ __('patientcare.¿') }}{{ __('patientcare.unassign') }} {{ $user->name }} {{ __('patientcare.fromThis') }} {{ __('patientcare.role') }}?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
+					<button type="submit" class="btn btn-danger" tabindex="0">{{ __('patientcare.delete') }}</button>
 				</div>
 			</form>
     </div>
@@ -147,5 +189,24 @@
 @stop
 @section('script')
 <script>
+	$('#name').change(function() {
+    $('#username').val($(this).val());
+	});
+	$('#lastNames').change(function() {
+    $('#userlastNames').val($(this).val());
+	});
+	$('#email').change(function() {
+    $('#useremail').val($(this).val());
+	});
+	function changeValue($id, $value) {
+		console.log("Changing " + $id + " to " + $value);
+		document.getElementById($id).value = $value;
+	}
+	$(document).on("show.bs.modal", '#deleteRoleModal', function (e) {
+		var roleid = $(e.relatedTarget).data('roleid');
+		var userid = $(e.relatedTarget).data('userid');
+		$('#userroleDeleteForm').attr('action', '/user/'+userid+'/roles/'+roleid);
+		console.log("user " + userid + " - role " + roleid)
+	});
 </script>
 @endsection

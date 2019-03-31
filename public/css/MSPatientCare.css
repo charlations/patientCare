@@ -82,3 +82,15 @@ div#appointmentAccordion div.collapse:not(:first-child) {
 .form-control.multiple-inputs {
 	margin-bottom: 1rem;
 }
+/* Inputs et all, but with inline buttons */
+div.-input--inline {
+	width: 100%;
+	float: left;
+}
+.-input--inline .btn-circle {
+	margin: 0.4rem 0 0.4rem 0.2rem;
+}
+.-input--inline .-btn-circle--1 {
+	width: calc(100% - 1.7rem);
+	float: left;
+}

@@ -8,6 +8,7 @@ use App\UserRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 //For switchLocale
 use Illuminate\Support\Facades\Session;
 
@@ -38,6 +39,62 @@ class UserController extends Controller
 				$users = DB::table('users')->where('active', '=', '1')->get();
 				return view('user.index', ['users' => $users]);
 
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+			$roles = Role::all();
+			return view('user.create', ['roles' => $roles]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+			if (($user = User::where('email', $request['email'])->first()) == null) {
+				$data = $request->validate([
+					'name' => ['required', 'string', 'max:255'],
+					'last_name' => ['string', 'max:255'],
+					'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+					'idRole' => 'exists:roles,id',
+					'password' => ['required', 'string', 'min:6', 'confirmed'],
+				]);
+				$user = User::create([
+					'name' => $data['name'],
+					'lastNames' => $data['last_name'],
+					'email' => $data['email'],
+					'password' => Hash::make($data['password']),
+				]);
+			} else {
+				$data = $request->validate([
+					'name' => ['required', 'string', 'max:255'],
+					'last_name' => ['string', 'max:255'],
+					'email' => ['required', 'string', 'email', 'max:255'],
+					'idRole' => 'exists:roles,id',
+					'password' => ['required', 'string', 'min:6', 'confirmed'],
+				]);
+				$user->update([
+					'name' => $data['name'],
+					'lastNames' => $data['last_name'],
+					'password' => Hash::make($data['password']),
+					'active' => 1,
+				]);
+			}
+			UserRoles::create([
+				'idUser' => $user->id,
+				'idRole' => $data['idRole'],
+				'notes' => 'First Role',
+			]);
+			return redirect()->route('user.index');
     }
 
     /**
@@ -86,11 +143,21 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+			// dd($request->except(['_token', '_method', 'name', 'lastNames', 'email']), $user->id);
 			$user->update($request->validate([
 				'name' => ['required', 'min:2'],
 				'lastNames' => 'nullable',
 				'email' => ['nullable', 'email']
 			]));
+			// Update roles
+			foreach( $request->except(['_token', '_method', 'name', 'lastNames', 'email']) as $urId => $urValue ) {
+				$userRole = UserRoles::find($urId);
+				if ($userRole->idUser == $user->id) {
+					$userRole->idRole = $urValue;
+					$userRole->save();
+				}
+			}
+			// Update roles END
 			return redirect()->route('user.index');
     }
 
@@ -104,6 +171,10 @@ class UserController extends Controller
     {
 				//$this->authorize('delete', auth()->user());
 				$user->update(['active' => 0]);
+				$userRoles = UserRoles::where('idUser', $user->id)->get();
+				foreach ($userRoles as $uRole) {
+					$uRole->delete();
+				}
 				return redirect('/user');
 		}
 		
