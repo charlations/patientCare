@@ -43,6 +43,7 @@ Route::resource('patient.appointment', 'AppointmentController');
 Route::post('user/{user}/roles', 'UserRolesController@store')->name('user.roles.store');
 Route::match(['put', 'patch'], 'user/{user}/roles/{role}', 'UserRolesController@update')->name('user.roles.update');
 Route::delete('user/{user}/roles/{role}', 'UserRolesController@destroy')->name('user.roles.destroy');
+Route::get('/patient/{patient}/pdf', 'PatientController@pdf')->name('patient.pdf');
 
 // Specific Controllers
 Route::get('/appointment', 'AppointmentController@indexAll');
