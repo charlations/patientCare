@@ -48,26 +48,45 @@ class RoutesTest extends TestCase
 	* Test User reachable routes are reachable. 
 	*
 	*/
-	public function testUserRoutes() {
+	public function testUserRoutes($email = null, $pass = null) {
+		$email = ($email == null ? 'carla@email.com' : $email);
+		$pass = ($pass == null ? '123456' : $pass);
 		$response = $this->post('/login', [
-			'email' => 'carla@email.com',
-			'password' => '123456',
+			'email' => $email,
+			'password' => $pass,
 		]);
 		$response->assertRedirect('/home');
+		
+		$response = $this->get('/');
+		$response->assertStatus(200);
+		$response->assertLocation('/');
 
 		$response = $this->get('/home');
+		$response->assertStatus(200);
 		$response->assertLocation('/home');
 
 		$response = $this->get('/insurance');
+		$response->assertStatus(200);
 		$response->assertLocation('/insurance');
 
 		$response = $this->get('/user');
+		$response->assertStatus(200);
 		$response->assertLocation('/user');
 
 		$response = $this->get('/patient');
+		$response->assertStatus(200);
 		$response->assertLocation('/patient');
 
 		$response = $this->get('/appointment');
+		$response->assertStatus(200);
 		$response->assertLocation('/appointment');
+	}
+
+	public function testDoctorRoutes() {
+		testUserRoutes('chezz@email.com');
+	}
+
+	public function testAssistantRoutes() {
+		testUserRoutes('azu@email.com');
 	}
 }
