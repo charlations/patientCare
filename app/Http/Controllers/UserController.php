@@ -106,10 +106,15 @@ class UserController extends Controller
     public function show(User $user)
     {
 			$tempUser = $user;
+			$userRoles = DB::table('usersRole')
+			->where('idUser', $user->id)
+			->join('roles', 'usersRole.idRole', '=', 'roles.id')
+			->get();
+			//dd($user, $userRoles);
 			//$user = User::findOrFail($id);
 			//dd($user);
 			//$this->authorize('view', $tempUser);
-			return view('user.show', compact('user'));
+			return view('user.show', compact('user', 'userRoles'));
     }
 
     /**

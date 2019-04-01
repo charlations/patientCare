@@ -28,11 +28,16 @@
 										</thead>
 										<tbody>
 										@foreach ($users as $user)
-											<tr> 
+											<tr>
+												@if (Auth::user()->hasPermission('user_view'))
+												<td><a href="/user/{{ $user->id }}">{{ $user->name }} {{ $user->lastNames }}</a></td>
+												@else
 												<td>{{ $user->name }} {{ $user->lastNames }}</td>
+												@endif
 												<td>{{ $user->email}}</td>
 												<td> 
-													<div class="btn-group" role="group" aria-label="Basic example">
+													<div class="btn-group" role="group">
+														@if (Auth::user()->hasPermission('user_edit'))
 														<a href="/user/{{ $user->id }}/edit">
 															<button 
 																type="button" 
@@ -40,6 +45,8 @@
 																<i class="fas fa-edit"></i>
 															</button>
 														</a>
+														@endif
+														@if (Auth::user()->hasPermission('user_delete'))
 														<button 
 															type="button" 
 															class="btn btn-danger btn-icon"
@@ -49,6 +56,7 @@
 															data-id="{{ $user->id }}" >
 															<i class="fas fa-trash-alt"></i>
 														</button>
+														@endif
 													</div>
 												</td>
 											</tr>

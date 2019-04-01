@@ -6,98 +6,78 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
+									@if (Auth::user()->id == $user->id)
 									{{ __('patientcare.myProfile') }}
+									@else
+									{{ __('patientcare.users') }}
+									@endif
 									<div class="pull-right">
-										<button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#insuranceModal">
-										<i class="fas fa-plus"></i>
+										@if (Auth::user()->hasPermission('user_edit') || Auth::user()->id == $user->id)
+										<a href="/user/{{ $user->id }}/edit">
+											<button 
+												type="button" 
+												class="btn btn-info btn-icon">
+												<i class="fas fa-edit"></i>
+											</button>
+										</a>
+										@endif
+										@if (Auth::user()->hasPermission('user_delete') && Auth::user()->id != $user->id)
+										<button 
+											type="button" 
+											class="btn btn-danger btn-icon"
+											data-toggle="modal"
+											data-target="#userDeleteModal"
+											data-name="{{ $user->name }}"
+											data-id="{{ $user->id }}" >
+											<i class="fas fa-trash-alt"></i>
 										</button>
+										@endif
 									</div>
 								</div>
 								
 
                 <div class="card-body">
 								<div class="list-group">
-									<a href="#" class="list-group-item list-group-item-action">
+									<li class="list-group-item">
 										<strong>{{ __('patientcare.name') }}: </strong>{{ $user->name }} {{ $user->lastNames }}
-									</a>
-									<a href="#" class="list-group-item list-group-item-action">
+									</li>
+									<li class="list-group-item">
 										<strong>{{ __('patientcare.email') }}: </strong>{{ $user->email }}
-									</a>
-									<a href="#" class="list-group-item list-group-item-action">
+									</li>
+									<li class="list-group-item">
+										<strong>{{ __('patientcare.role') }}(s): </strong>
+										@foreach($userRoles as $role)
+										{{ __('patientcare.role'.$role->roleName) }}
+										@if (!$loop->last)
+										, 
+										@endif
+										@endforeach
+									</li>
+									<li class="list-group-item list-group-item-action">
 										<strong>{{ __('patientcare.futureAppointments') }}</strong><span class="badge badge-primary badge-pill pull-right">2</span>
-									</a>
+									</li>
 								</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- CREATE / UPDATE MODAL -->
-<div class="modal" id="insuranceModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.insurance') }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-			<form method="POST" action="/insurance" id="insuranceForm">
-      	<div class="modal-body">
-					@csrf
-					<div id="formMethod"></div>
-					<div class="form-group row">
-						<label for="insuranceName" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.insuranceName') }}</label>
-
-						<div class="col-md-6">
-							<input id="insuranceName" type="text" class="form-control{{ $errors->has('insuranceName') ? ' is-invalid' : '' }}" name="insuranceName" value="{{ old('insuranceName') }}" required autofocus>
-
-							@if ($errors->has('insuranceName'))
-								<span class="invalid-feedback" role="alert">
-									<strong>{{ $errors->first('insuranceName') }}</strong>
-								</span>
-							@endif
-						</div>
-					</div>
-
-					<div class="form-group row">
-						<label for="notes" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.notes') }}</label>
-
-						<div class="col-md-6">
-							<textarea id="notes" type="text" class="form-control{{ $errors->has('notes') ? ' is-invalid' : '' }}" name="notes" value="{{ old('notes') }}" autofocus></textarea>
-
-							@if ($errors->has('notes'))
-								<span class="invalid-feedback" role="alert">
-									<strong>{{ $errors->first('notes') }}</strong>
-								</span>
-							@endif
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
-					<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.create') }}</button>
-				</div>
-			</form>
-    </div>
-  </div>
-</div>
 <!-- DELETE MODAL -->
-<div class="modal" id="insuranceDeleteModal" tabindex="-1" role="dialog">
+<div class="modal" id="userDeleteModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.delete') }} {{ __('patientcare.insurance') }}</h5>
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.delete') }} {{ __('patientcare.user') }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-			<form method="POST" action="/insurance" id="insuranceDeleteForm">
+			<form method="POST" action="/user/{{ $user->id }}" id="insuranceDeleteForm">
 				@csrf
 				@method("DELETE")
 				<div class="modal-body">
 					<h3>{{ __('patientcare.¿') }}{{ __('patientcare.areYouSure') }}?</h3>
-					<h5>{{ __('patientcare.¿') }}{{ __('patientcare.delete') }} <span id="insuranceDeleteName"></span>?
+					<h5>{{ __('patientcare.¿') }}{{ __('patientcare.delete') }} {{ $user->name }} {{ $user->lastNames }}?
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
@@ -107,29 +87,4 @@
     </div>
   </div>
 </div>
-@stop
-@section('script')
-<script>
-	$(document).on("show.bs.modal", '#insuranceModal', function (e) {
-		var id = $(e.relatedTarget).data('id');
-		if(id != undefined) {
-			$('#insuranceForm').attr('action', '/insurance/'+id);
-			$("#formMethod").html('{{ method_field("PATCH") }}');
-			$("#submitButton").html('{{ __("Update") }}');
-		}
-		var button = $(e.relatedTarget)
-		var id = button.data('id');
-		var name = button.data('name');
-		var notes = button.data('notes');
-		console.log(id + " - " + name + ": " + notes);
-		$("#insuranceName").val($(e.relatedTarget).data('name'));
-		$("#notes").html($(e.relatedTarget).data('notes'));
-	});
-	$(document).on("show.bs.modal", '#insuranceDeleteModal', function (e) {
-		var id = $(e.relatedTarget).data('id');
-		$('#insuranceDeleteForm').attr('action', '/insurance/'+id);
-		$("#insuranceDeleteName").html($(e.relatedTarget).data('name'));
-		console.log(id+" - "+$(e.relatedTarget).data('name'))
-	});
-</script>
 @endsection
