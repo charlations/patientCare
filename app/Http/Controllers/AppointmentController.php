@@ -18,6 +18,7 @@ class AppointmentController extends Controller
 		{
 				$this->middleware('auth');
 				$this->middleware('permission:appointment_index')->only('index');
+				$this->middleware('permission:appointment_index')->only('indexAll');
 				$this->middleware('permission:appointment_create')->only('create');
 				$this->middleware('permission:appointment_create')->only('store');
 				$this->middleware('permission:appointment_view')->only('show');

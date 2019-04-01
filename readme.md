@@ -31,7 +31,6 @@ sudo /opt/lampp/manager-linux-x64.run
 
 Default Routes:
 
-> ```
 > GET 		/insurance 				(index)		Route::get()
 > GET			/insurance/i			(show) 		Route::get()
 > POST 		/insurance 				(store) 	Route::post()
@@ -40,7 +39,6 @@ Default Routes:
 > DELETE 	/insurance/i 			(destroy) Route::delete()
 > ---------------------------------------------------
 > ALL 																Route::resource()
-> ```
 
 List all the current routes
 
@@ -53,6 +51,12 @@ Create the controller with boilerplate functions
 Create the controller with boilerplate functions, including and referencing the Model
 
 `php artisan make:controller InsuranceController -r -m Insurance`
+
+### Testing
+
+Run Tests
+
+`vendor/bin/phpunit`
 
 ## About Laravel
 
