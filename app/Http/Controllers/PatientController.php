@@ -7,6 +7,7 @@ use App\MedHistory;
 use App\Insurance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -18,7 +19,7 @@ class PatientController extends Controller
 		public function __construct()
 		{
 				$this->middleware('auth');
-				$this->middleware('permission:patient_index')->only('index');
+				//$this->middleware('permission:patient_index')->only('index');
 				$this->middleware('permission:patient_create')->only('create');
 				$this->middleware('permission:patient_delete')->only('destroy');
 		}
@@ -30,8 +31,12 @@ class PatientController extends Controller
      */
     public function index()
     {
-				$patients = DB::table('patients')->get();
-				return view('patient.index', ['patients' => $patients]);
+				if (Auth::user()->hasPermission('patient_index')){
+					$patients = DB::table('patients')->get();
+					return view('patient.index', ['patients' => $patients]);
+				} else {
+					return view('home');
+				}
     }
 
     /**
