@@ -66,4 +66,11 @@ return [
 		'viewAll' => 'Ver todas las',
 		'closeAll' => 'Cerrar todas las',
 		'noMedicalHistory' => 'No se ha registrado el historial médico de :Name',
+		'download' => 'Descargar',
+		'save' => 'Guardar',
+		'role' => 'Rol',
+		'roleadmin' => 'Administrador',
+		'roledoctor' => 'Doctor',
+		'roleassistant' => 'Asistente',
+
 ];

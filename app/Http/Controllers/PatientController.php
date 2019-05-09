@@ -182,29 +182,26 @@ class PatientController extends Controller
 		 * @param \App\Patient $patient
 		 */
 		public function pdf(Patient $patient) {
-			// Fetch all the patient's data from database
-			$medHistList = DB::table('medHistList')->get();
-			$medHistHistory = DB::table('medHistory')->where('idPatient', $patient->id)->get();
-			foreach($medHistList as $listItem) {
-				$listItem->histRecord = NULL;
-				foreach($medHistHistory as $medHistItem) {
-					if($listItem->id == $medHistItem->idMedHistList) {
-						$listItem->histRecord = $medHistItem->histRecord;
-					}
-				}
-			}
-			/* Para formatear la fecha en el blade: "{{ date('d/m/Y', strtotime($appoint->created_at)) }}" - https://stackoverflow.com/questions/40038521/change-the-date-format-in-laravel-view-page */
-			$appointments = DB::table('appointments')->where('idPatient', $patient->id)->orderBy('created_at', 'desc')->get();
+			/* Fetch all the patient's data from database */
+			$medHistory = DB::table('medHistory')
+				->where('idPatient', $patient->id)
+				->join('medHistList', 'medHistList.id', 'medHistory.idMedHistList')
+				->get();
+			$appointments = DB::table('appointments')
+				->where('idPatient', $patient->id)
+				->orderBy('created_at', 'desc')
+				->get();
 			$patientAge = Patient::getAge($patient->birthdate);
-			$medHistRegisters = sizeof($medHistHistory);
-			$patientData = compact('medHistList', 'patient', 'appointments', 'patientAge', 'medHistRegisters');
-			// Send data to the view using loadView function of PDF facade
-			$pdf = PDF::loadView('patient.pdf', $patientData);
+			$data = compact('medHistory', 'patient', 'appointments', 'patientAge');
+			//dd($data, $data['patient']->id);
+			//return view('patient.pdf', compact('data'));
+			/* Send data to the view using loadView function of PDF facade */
+			$pdf = PDF::loadView('patient.pdf',compact('data'));
 			// $pdf = PDF::loadView('pdf.customers', $data);
-			// If you want to store the generated pdf to the server then you can use the store function
-			$pdf->save(storage_path().'_filename.pdf');
-			// Finally, you can download the file using download function
-			return $pdf->download('patient.pdf');
+			/* If you want to store the generated pdf to the server then you can use the store function */
+			//$pdf->save(storage_path().'_filename.pdf');
+			/* Finally, you can download the file using download function */
+			return $pdf->download($patient->name.$patient->lastNames.'.pdf');
 		}
 
     /**

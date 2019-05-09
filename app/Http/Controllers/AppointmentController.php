@@ -50,6 +50,8 @@ class AppointmentController extends Controller
     public function indexAll()
     {
 				$appointments = Appointment::orderBy('created_at', 'desc')
+					->join('patients', 'appointments.idPatient', '=', 'patients.id')
+					->select('appointments.*', 'patients.name', 'patients.lastNames')
 					->simplePaginate(10);
 				//dd($appointments, $appointments->links());
 				return view('appointment.index', compact('appointments'));

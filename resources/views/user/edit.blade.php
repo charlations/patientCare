@@ -85,7 +85,7 @@
 							<div class="col-md-6 offset-md-4">
 								<a href="/user"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
 								<button type="submit" class="btn btn-primary">
-									{{ __('patientcare.edit') }}
+									{{ __('patientcare.save') }}
 								</button>
 							</div>
 						</div>

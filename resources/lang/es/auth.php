@@ -15,5 +15,12 @@ return [
 
     'failed' => 'Los datos ingresados no coinciden con nuestros registros.',
     'throttle' => 'Se ha intentado iniciar sesión demasiadas veces. Intente nuevamente en :seconds segundos.',
+		'logout' => 'Cerrar Sesión',
+		'Login' => 'Iniciar Sesión',
+		'E-Mail Address' => 'Correo Electrónico',
+		'Password' => 'Contraseña',
+		'Remember Me' => 'Recuérdame',
+		'Login With Google' => 'Iniciar Sesión con Google',
+		'Forgot Your Password?' => 'Olvidé mi contraseña',
 
 ];

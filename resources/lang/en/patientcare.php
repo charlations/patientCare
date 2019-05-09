@@ -66,5 +66,12 @@ return [
 		'treatment' => 'Treatment',
 		'viewAll' => 'View all',
 		'closeAll' => 'Close all',
-		'noMedicalHistory' => '',
+		'noMedicalHistory' => ':Name has not had their medical history registered yet',
+		'download' => 'Download',
+		'save' => 'Save',
+		'role' => 'Role',
+		'roleadmin' => 'Administrator',
+		'roledoctor' => 'Doctor',
+		'roleassistant' => 'Assistant',
+		
 ];

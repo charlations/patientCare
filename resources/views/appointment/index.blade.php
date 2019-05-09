@@ -45,7 +45,24 @@
 				<div class="card-body">
 					@foreach ($appointments as $appoint)
 					<p class="card-text appointment-title index-appointment-title" id="heading{{ $appoint->id }}" data-toggle="collapse" data-target="#collapse{{ $appoint->id }}" aria-expanded="true" aria-controls="{{ $appoint->id }}">
-						<strong>{{ $appoint->diagnosis }} - {{ date('d/m/Y', strtotime($appoint->created_at)) }}</strong>
+						<strong>
+							@if (Auth::user()->hasPermission('appointment_view'))
+							<a href="/patient/{{ $appoint->idPatient }}/appointment/{{ $appoint->id }}" data-toggle="tooltip" data-placement="top" title="{{ __('patientcare.view') }} {{ __('patientcare.appointment') }}">
+								{{ $appoint->diagnosis }} - {{ date('d/m/Y', strtotime($appoint->created_at)) }}
+							</a> <span style="margin-right: 10px"></span>
+							@else
+							{{ $appoint->diagnosis }} - {{ date('d/m/Y', strtotime($appoint->created_at)) }} <span style="margin-right: 5px"></span>
+							@endif
+							 | 
+							@if (Auth::user()->hasPermission('patient_view'))
+							<span style="margin-left: 10px"></span>
+							<a href="/patient/{{ $appoint->idPatient }}" data-toggle="tooltip" data-placement="top" title="{{ __('patientcare.view') }} {{ __('patientcare.patient') }}">
+								{{ $appoint->name }} {{ $appoint->lastNames }}
+							</a> <span style="margin-right: 10px"></span>
+							@else
+							{{ $appoint->name }} {{ $appoint->lastNames }}
+							@endif
+						</strong>
 						<span class="pull-right">
 							@if (Auth::user()->hasPermission('appointment_view'))
 							<a href="/patient/{{ $appoint->idPatient }}/appointment/{{ $appoint->id }}" data-toggle="tooltip" data-placement="top" title="{{ __('patientcare.view') }} {{ __('patientcare.appointment') }}">

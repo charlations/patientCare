@@ -135,7 +135,7 @@
 									</div>
 									<div class="card-body">
 										<a href="/patient/{{ $patient->id }}"><button type="button" class="btn btn-secondary">{{ __('patientcare.cancel') }}</button></a>
-										<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.edit') }}</button>
+										<button type="submit" class="btn btn-primary" id="submitButton">{{ __('patientcare.save') }}</button>
 									</div>
 								</form>
             </div>

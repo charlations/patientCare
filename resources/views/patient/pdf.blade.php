@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.print')
 
 @section('content')
 <div class="container">
@@ -7,15 +7,14 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="pull-left">
-						<h6><strong>{{ $patientData->patient->name }} {{ $patientData->patient->lastNames }}</strong></h6>
+						<h6><strong>{{ $data['patient']->name }} {{ $data['patient']->lastNames }}</strong></h6>
 						<strong>{{ __('patientcare.age') }}: </strong>
-						{{ $patientData->patientAge }}
+						{{ $data['patientAge'] }}
 					</div>
 				</div>
 				<div class="card-body">
 					<h5 class="card-title">{{ __('patientcare.medicalHistory') }}</h5>
-					@if($medHistRegisters)
-					@foreach ($patientData->medHistList as $medListItem)
+					@foreach ($data['medHistory'] as $medListItem)
 					<p class="card-text">
 						<!-- TODO: change to 'eng_name' when in english -->
 						@if (App::isLocale('es'))
@@ -26,20 +25,13 @@
 						{{ $medListItem->histRecord }}
 					</p>
 					@endforeach
-					@else
-					<div class="align-center">
-						<p class="card-text info-text">
-							{{ __('patientcare.noMedicalHistory', ['name' => $patient->name]) }}
-						</p>
-					</div>
-					@endif
 				</div>
 				<div class="card-body" id="appointmentAccordion">
 					<h5 class="card-title">
 						{{ __('patientcare.appointments') }}
 					</h5>
 					<div>
-						@foreach ($patientData->appointments as $appoint)
+						@foreach ($data['appointments'] as $appoint)
 						<p class="card-text appointment-title" id="heading{{ $appoint->id }}">
 							<strong>{{ $appoint->diagnosis }} - {{ date('d/m/Y', strtotime($appoint->created_at)) }}</strong>
 						</p>
@@ -72,3 +64,4 @@
 		</div>
 	</div>
 </div>
+@endsection
