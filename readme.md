@@ -32,12 +32,19 @@ sudo /opt/lampp/manager-linux-x64.run
 Default Routes:
 
 > GET 		/insurance 				(index)		Route::get()
+> 
 > GET			/insurance/i			(show) 		Route::get()
+> 
 > POST 		/insurance 				(store) 	Route::post()
+> 
 > GET			/insurance/i/edit (edit) 		Route::get()
+> 
 > PATCH 	/insurance/i 			(update) 	Route::patch()
+> 
 > DELETE 	/insurance/i 			(destroy) Route::delete()
-> ---------------------------------------------------
+>
+>  ---------------------------------------------------
+>
 > ALL 																Route::resource()
 
 List all the current routes

@@ -127,11 +127,13 @@ class AppointmentController extends Controller
 				if ($appointment->idPatient != $patientId) {
 					abort(404);
 				}
+				$request = request();
+				$referer = $request->header('referer');
 				//Get the stored diagnosis
 				$diagnosis = DB::table('appointments')->select('diagnosis')->distinct()->get();
 				$patient = DB::table('patients')->where('id', $patientId)->first();
-				dd(compact('appointment', 'patient', 'diagnosis'));
-				return view('appointment.create', compact('appointment', 'patient', 'diagnosis'));
+				// dd(compact('appointment', 'patient', 'diagnosis'));
+				return view('appointment.edit', compact('appointment', 'patient', 'diagnosis'));
     }
 
     /**
@@ -143,7 +145,24 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, $patientId, Appointment $appointment)
     {
-        dd($request, $patientId, $appointment);
+			$pId = ['idPatient' => $patientId];
+			$request->merge($pId);
+			// dd($request);
+			$appointment->update($request->validate([
+				'idPatient' => ['required', 'exists:mysql.patients,id'],
+				'symptoms' => 'nullable',
+				'heartrate' => 'nullable',
+				'bloodpressure' => ['nullable', 'regex:/[0-9][0-9]+\/[0-9][0-9]+/'],
+				'temp' => 'nullable',
+				'weight' => 'nullable',
+				'height' => 'nullable',
+				'exploration' => 'nullable',
+				'prevStudies' => 'nullable',
+				'diagnosis' => 'required',
+				'treatment' => 'nullable'
+			]));
+			return redirect()->action('PatientController@show', $patientId);
+			// dd($request, $patientId, $appointment);
     }
 
     /**

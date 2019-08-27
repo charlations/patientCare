@@ -81,7 +81,10 @@
 									data-toggle="modal"
 									data-target="#appointDeleteModal"
 									data-pid="{{ $appoint->idPatient }}"
-									data-aid="{{ $appoint->id }}">
+									data-aid="{{ $appoint->id }}"
+									data-pname="{{ $appoint->name }}"
+									data-adate="{{ $appoint->created_at }}"
+									data-diag="{{ $appoint->diagnosis }}">
 									<i class="fas fa-trash-alt"></i>
 								</a>
 							</span>
@@ -122,7 +125,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.delete') }} {{ __('patientcare.appointment') }}</h5>
+        <h5 class="modal-title" id="modalTitle">{{ __('patientcare.¿') }}{{ __('patientcare.areYouSure') }}?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -131,8 +134,12 @@
 				@csrf
 				@method("DELETE")
 				<div class="modal-body">
-					<h3>{{ __('patientcare.¿') }}{{ __('patientcare.areYouSure') }}?</h3>
-					<h5>{{ __('patientcare.¿') }}{{ __('patientcare.delete') }} {{ __('patientcare.appointment') }}?
+					<h3>{{ __('patientcare.¿') }}{{ __('patientcare.delete') }} {{ __('patientcare.appointment') }}?</h3>
+					<ul>
+						<li><strong>{{ __('patientcare.name') }}: </strong><span id="appointDelete-name"></span></li>
+						<li><strong>{{ __('patientcare.date') }}: </strong><span id="appointDelete-date"></span></li>
+						<li><strong>{{ __('patientcare.diagnosis') }}: </strong><span id="appointDelete-diag"></span></li>
+					</ul>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('patientcare.cancel') }}</button>
@@ -148,7 +155,13 @@
 	$(document).on("show.bs.modal", '#appointDeleteModal', function (e) {
 		var pid = $(e.relatedTarget).data('pid');
 		var aid = $(e.relatedTarget).data('aid');
+		var pname = $(e.relatedTarget).data('pname');
+		var adate = $(e.relatedTarget).data('adate');
+		var diag = $(e.relatedTarget).data('diag');
 		$('#appointDeleteForm').attr('action', '/patient/'+pid+'/appointment/'+aid);
+		$('#appointDelete-name').html(pname);
+		$('#appointDelete-date').html(adate);
+		$('#appointDelete-diag').html(diag);
 	});
 </script>
 @endsection
