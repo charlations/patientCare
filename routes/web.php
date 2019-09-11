@@ -46,7 +46,7 @@ Route::delete('user/{user}/roles/{role}', 'UserRolesController@destroy')->name('
 Route::get('/patient/{patient}/pdf', 'PatientController@pdf')->name('patient.pdf');
 
 // Specific Controllers
-Route::get('/appointment', 'AppointmentController@indexAll');
+Route::get('/appointment', 'AppointmentController@indexAll')->name('appointment.index');
 Route::post('switchLocale', 'UserController@switchLocale');
 
 // Google Login Controller

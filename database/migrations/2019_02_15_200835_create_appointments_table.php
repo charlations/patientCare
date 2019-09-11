@@ -23,6 +23,7 @@ class CreateAppointmentsTable extends Migration
 						$table->decimal('temp', 6, 2)->nullable();
 						$table->string('weight', 9)->nullable();
 						$table->string('height', 9)->nullable();
+						$table->decimal('bmi', 3, 2)->nullable();
 						$table->text('prevStudies')->nullable();
 						$table->string('diagnosis', 255)->nullable();
 						$table->text('treatment')->nullable();

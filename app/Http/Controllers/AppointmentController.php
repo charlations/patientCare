@@ -133,7 +133,7 @@ class AppointmentController extends Controller
 				$diagnosis = DB::table('appointments')->select('diagnosis')->distinct()->get();
 				$patient = DB::table('patients')->where('id', $patientId)->first();
 				// dd(compact('appointment', 'patient', 'diagnosis'));
-				return view('appointment.edit', compact('appointment', 'patient', 'diagnosis'));
+				return view('appointment.edit', compact('appointment', 'patient', 'diagnosis', 'referer'));
     }
 
     /**
@@ -147,7 +147,7 @@ class AppointmentController extends Controller
     {
 			$pId = ['idPatient' => $patientId];
 			$request->merge($pId);
-			// dd($request);
+			// dd($request, $request->referer, route('appointment.index'), $request->referer == route('appointment.index'));
 			$appointment->update($request->validate([
 				'idPatient' => ['required', 'exists:mysql.patients,id'],
 				'symptoms' => 'nullable',
@@ -161,6 +161,7 @@ class AppointmentController extends Controller
 				'diagnosis' => 'required',
 				'treatment' => 'nullable'
 			]));
+			if ($request->referer == route('appointment.index')) return redirect()->action('AppointmentController@indexAll');	
 			return redirect()->action('PatientController@show', $patientId);
 			// dd($request, $patientId, $appointment);
     }

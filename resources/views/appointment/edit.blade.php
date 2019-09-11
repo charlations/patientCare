@@ -12,6 +12,7 @@
 					<form method="POST" action="/patient/{{ $patient->id }}/appointment/{{ $appointment->id }}">
 						@csrf
 						@method("PATCH")
+						<input id="referer" type="hidden" name="referer" value="{{ $referer }}">
 						<div class="form-group row">
 							<label for="symptoms" class="col-md-4 col-form-label text-md-right">{{ __('patientcare.symptoms') }}</label>
 
